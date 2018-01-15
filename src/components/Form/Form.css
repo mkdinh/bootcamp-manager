@@ -1,0 +1,49 @@
+.form-wrapper {
+    margin: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.field {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.field.inline {
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.input {
+    margin: 1rem 0
+}
+
+/* TEXT INPUT CSS */
+
+.text-wrapper {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+}
+
+.text {
+    padding: 0.5rem 1rem;
+    flex-grow: 1;
+    border: 1px solid rgb(214, 214, 214);
+    border-radius: 0.5rem;
+}
+
+.label {
+    position: absolute;
+    top: -0.25rem; 
+    left: 0;
+    color: #56a0d3;
+    font: bold 0.75rem sans-serif;
+    text-transform: uppercase;
+}

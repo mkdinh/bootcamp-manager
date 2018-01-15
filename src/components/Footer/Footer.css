@@ -1,0 +1,48 @@
+.footer {
+    display: flex;
+    flex-direction: row;
+    height: 2.5rem;
+    border-top: 2px solid rgb(31, 31, 31);
+    background: rgb(37, 37, 37);
+}
+
+.footer-button-push {
+    border: none;
+    width: 20%;
+    background: rgb(86, 160, 211);
+    cursor: pointer;
+    transition: all 250ms;
+}
+
+.footer-button-push.enabled:hover {
+    background: rgb(105,194,255)
+}
+
+.footer-button-push:active {
+    opacity: 0.75;
+}
+
+.footer-button-content {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.footer-input-message {
+    flex-grow: 1;
+    border: none;
+    background: none;
+    color: rgb(255, 255, 255);
+    padding: 0 1rem;
+    outline: none;
+    font-weight: bold;
+}
+
+.error {
+    border: 1px solid rgb(238,68,43);
+    color: rgb(238,68,43);
+}
+
+.disabled {
+    opacity: 0.50;
+}

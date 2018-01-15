@@ -1,0 +1,98 @@
+{
+  "instructor": {
+    "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\FullStack-Lesson-Plans",
+    "activities": {
+      "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\FullStack-Lesson-Plans",
+      "path": "\\01-Class-Content",
+      "target": "\\01-Activities",
+      "params": [
+        ":root",
+        ":path",
+        ":week",
+        ":target"
+      ]
+    },
+    "projects": {
+      "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\FullStack-Lesson-Plans",
+      "target": "\\05-Projects",
+      "params": [
+        ":root",
+        ":target"
+      ]
+    },
+    "homework": {
+      "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\FullStack-Lesson-Plans",
+      "path": "\\01-Class-Content",
+      "target": "\\02-Homework",
+      "params": [
+        ":root",
+        ":path",
+        ":week",
+        ":target"
+      ]
+    },
+    "slides": {
+      "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\FullStack-Lesson-Plans",
+      "path": "\\02-lesson-plans",
+      "params": [
+        ":root",
+        ":path",
+        "part-time",
+        ":week"
+      ]
+    }
+  },
+  "student": {
+    "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\UNCRAL201801-T-TH-Class-Repository-FSF",
+    "activities": {
+      "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\UNCRAL201801-T-TH-Class-Repository-FSF",
+      "path": "\\01-Class-Content\\",
+      "target": "\\01-Activities",
+      "params": [
+        ":root",
+        ":path",
+        ":week",
+        ":target"
+      ]
+    },
+    "homework": {
+      "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\UNCRAL201801-T-TH-Class-Repository-FSF",
+      "path": "\\01-Class-Content\\",
+      "target": "\\02-Homework",
+      "params": [
+        ":root",
+        ":path",
+        ":week",
+        ":target"
+      ]
+    },
+    "slides": {
+      "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\UNCRAL201801-T-TH-Class-Repository-FSF",
+      "path": "\\01-Class-Content\\",
+      "target": "\\04-SlideShows",
+      "params": [
+        ":root",
+        ":path",
+        ":week",
+        ":target"
+      ]
+    },
+    "projects": {
+      "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\UNCRAL201801-T-TH-Class-Repository-FSF",
+      "target": "\\05-projects",
+      "params": [
+        ":root",
+        ":target"
+      ]
+    }
+  },
+  "weeks": {
+    "total": "24",
+    "current": {
+      "week": "02-Week",
+      "subject": "02-css-bootstrap"
+    },
+    "start_date": 1515042000000,
+    "current_date": 1516049699676
+  }
+}

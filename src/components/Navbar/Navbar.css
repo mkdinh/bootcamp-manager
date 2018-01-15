@@ -1,0 +1,30 @@
+.navbar {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-item {
+    flex-grow: 2;
+    font: 0.75rem sans-serif;
+    color: #ffffff;
+    background: #252424;
+    padding: 0.75rem 0;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: all 250ms;
+}
+
+.navbar-item-active {
+    composes: navbar-item;
+    background: #56a0d3;
+    opacity: 1;
+}
+
+.navbar-item:hover {
+    opacity: 1;
+    background: #56a0d3;
+}

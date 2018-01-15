@@ -1,0 +1,23 @@
+.arrow {
+    position: absolute;
+    z-index: 555;
+    background: rgba(30, 30, 30, 0.95);
+    width: 100%;
+    padding: 0.25rem 0;
+    text-align: center;
+    color: rgb(240, 240, 240);
+}
+
+.arrow-icon {
+    margin: auto;
+}
+
+.up {
+    top: 0;
+    left: 0
+}
+
+.down {
+    bottom: 0;
+    left: 0
+}

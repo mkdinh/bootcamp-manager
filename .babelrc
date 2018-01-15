@@ -1,0 +1,17 @@
+{
+    "presets":[
+        "env",
+        "react",
+        "stage-2"
+    ],
+    "plugins": [
+        "transform-class-properties",
+        "transform-decorators-legacy",
+        ["transform-runtime", {          
+            "helpers": false,
+            "polyfill": true,
+            "regenerator": true 
+            }
+        ]
+      ]
+}

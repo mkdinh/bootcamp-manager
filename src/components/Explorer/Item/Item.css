@@ -1,0 +1,64 @@
+.item {
+    width: 95%;
+    color: rgb(207, 207, 207);
+    font: 16px system-ui;
+    padding: 0.5rem;
+    margin: 0.3rem 0;
+    transition: background 100ms;
+    cursor: pointer;
+    box-shadow: 0 0 0.25rem rgb(0, 0, 0);
+}
+
+.item-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.clevel-1.expand {
+    background: rgb(35, 35, 35);
+}
+
+.bordered {
+    border: 0.5px solid #ffbb00;
+}
+
+.clevel-1 {
+    background: rgb(54, 54, 54);
+}
+
+.clevel-1:hover {
+    background: rgb(35, 35, 35);
+}
+
+.clevel-2 {
+    background: rgb(70, 69, 69);
+}
+
+.clevel-2:hover {
+    background: rgb(80, 80, 80);
+}
+
+.clevel-3 {
+    background: rgb(56, 56, 56);
+}
+
+.clevel-3:hover {
+    background: rgb(43, 43, 43);
+}
+
+.clevel-4 {
+    background: rgb(54, 54, 54);
+}
+
+.clevel-4:hover {
+    background: #5e5e5e;
+}

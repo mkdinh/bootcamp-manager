@@ -1,0 +1,22 @@
+.panel, .panel-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+.panel-placeholder {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    color: rgb(216, 216, 216);
+    text-transform: uppercase;
+    font: bold 1.25rem sans-serif;
+}
+
+.panel-header {
+    font: bold 1.5rem Arial;
+    margin: 1rem 0.75rem;
+    text-transform: uppercase;
+    color: #ffffff;
+}

@@ -1,0 +1,44 @@
+.icon-file {
+    border: none;
+    color: #d6d6d6;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.html {
+    color: rgb(241,101,36);
+}
+
+.css {
+    color: rgb(49,170,221);
+}
+
+.js {
+    color: rgb(255,218,62);
+}
+
+.dir {
+    color: rgb(86,160,211);
+}
+
+.md {
+    color: rgb(184, 0, 240);
+}
+
+.slsx {
+    color: rgb(33,115,70);
+}
+
+.json {
+    color: rgb(0, 168, 73);
+}
+
+.png, .jpg, .jpeg, .gif {
+    color: rgb(46,143,0);
+}
+
+.mov {
+    color: rgb(253, 68, 68);
+}

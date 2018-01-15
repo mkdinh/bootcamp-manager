@@ -1,0 +1,25 @@
+.list {
+    position: relative;
+    display: flex;
+}
+
+.list-ul {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+    overflow: auto;
+    list-style: none;
+}
+
+.list-placeholder {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    color: rgb(216, 216, 216);
+    text-transform: uppercase;
+    font: bold 1.25rem sans-serif;
+}

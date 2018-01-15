@@ -1,0 +1,144 @@
+[
+    {
+        "week": "01-Week",
+        "subject": "01-html-git-css",
+        "content": "01-html-git-css"
+    },
+
+    {
+        "week": "02-Week",
+        "subject": "02-css-bootstrap",
+        "content": "02-css-bootstrap"
+    },
+
+    {
+        "week": "03-Week",
+        "subject": "03-javascript",
+        "content": "03-javascript"
+    },
+    
+    {
+        "week": "04-Week",
+        "subject": "04-jquery",
+        "content": "04-jquery"
+    },
+
+    {
+        "week": "05-Week",
+        "subject": "05-timers",
+        "content": "05-timers"
+    },
+
+    {
+        "week": "06-Week",
+        "subject": "06-ajax",
+        "content": "06-ajax"
+    },
+
+    {
+        "week": "07-Week",
+        "subject": "07-firebase",
+        "content": "07-firebase"
+    },
+
+    {
+        "week": "08-Week",
+        "subject": "08-project-1",
+        "content": "08-project-1"
+    },
+
+    {
+        "week": "09-Week",
+        "subject": "09-project-1",
+        "content": "Week-project-1"
+    },
+
+    {
+        "week": "10-Week",
+        "subject": "10-nodejs",
+        "content": "10-nodejs"
+    },
+
+    {
+        "week": "11-Week",
+        "subject": "11-js-constructors",
+        "content": "11-js-constructors"
+    },
+
+    {
+        "week": "12-Week",
+        "subject": "12-mysql",
+        "content": "12-mysql"
+    },
+
+    {
+        "week": "13-Week",
+        "subject": "13-express",
+        "content": "13-express"
+    },
+
+    {
+        "week": "14-Week",
+        "subject": "14-handlebars",
+        "content": "14-handlebars"
+    },
+
+    {
+        "week": "15-Week",
+        "subject": "15-sequelize",
+        "content": "15-sequelize"
+    },
+
+    {
+        "week": "16-Week",
+        "subject": "16-testing",
+        "content": "16-testing"
+    },
+
+    {
+        "week": "17-Week",
+        "subject": "17-project-2",
+        "content": "17-project-2"
+    },
+
+    {
+        "week": "18-Week",
+        "subject": "18-mongo-mongoose",
+        "content": "18-mongo-mongoose"
+    },
+
+    {
+        "week": "19-Week",
+        "subject": "19-react",
+        "content": "19-react"
+    },
+
+    {
+        "week": "20-Week",
+        "subject": "20-react",
+        "content": "20-react"
+    },
+
+    {
+        "week": "21-Week",
+        "subject": "21-regionalized-content",
+        "content": "21-regionalized-content"
+    },
+
+    {
+        "week": "22-Week",
+        "subject": "22-computer-science",
+        "content": "22-computer-science"
+    },
+
+    {
+        "week": "23-Week",
+        "subject": "23-other-languages",
+        "content": "23-other-languages"
+    },
+    {
+        "week": "24-Week",
+        "subject": "24-presentations-graduation",
+        "content": "24-presentations-graduation"
+    }
+]
