@@ -1,3 +1,7 @@
 .remove {
     background: rgb(207, 0, 0);
 }
+
+.pushed {
+    background: rgb(0, 0, 0);
+}

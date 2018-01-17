@@ -4,9 +4,10 @@
     font: 16px system-ui;
     padding: 0.5rem;
     margin: 0.3rem 0;
-    transition: background 100ms;
+    transition: background 250ms;
     cursor: pointer;
     box-shadow: 0 0 0.25rem rgb(0, 0, 0);
+    user-select: none;
 }
 
 .item-content {
@@ -25,10 +26,6 @@
 
 .clevel-1.expand {
     background: rgb(35, 35, 35);
-}
-
-.bordered {
-    border: 0.5px solid #ffbb00;
 }
 
 .clevel-1 {
@@ -62,3 +59,13 @@
 .clevel-4:hover {
     background: #5e5e5e;
 }
+
+.bordered {
+    border: 0.5px solid #ff9900;
+}
+
+.item.pushed {
+    background: rgb(0, 0, 0);
+}
+
+

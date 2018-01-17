@@ -10,7 +10,6 @@ app.on("ready", function(){
         width: 1000, 
         height: 600,
         frame: false,
-        center: true
     });
 
     win.once("ready-to-show", () => {

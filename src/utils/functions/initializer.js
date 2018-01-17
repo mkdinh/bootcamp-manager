@@ -7,55 +7,40 @@ import path from "path";
 //--------------------------------------------------------
 const _this = {
 
-    absPath: {
+    absPaths: {
         instructor: "",
         student: "",
         rootStudent: ""
+    },
+
+    relPaths: {
+        instructor: {},
+        student: {}
     },
 
     initialize: (iPath, sPath, iWeek, sWeek) => {
         return new Promise( (resolve, reject) => {
             let relPathInstructor, relPathStudent;
             let dirInstructor, dirStudent;
-            // concat params into path string
-
+            
             if(iPath) {
+                // concat params into path string
                 relPathInstructor = _this.genPath(iPath, iWeek);
-                console.log(relPathInstructor)
+                // recursively find document paths
+                dirInstructor = _this.rSearch(relPathInstructor, "/", {}, null, true, true, "instruct");
+                // update root directory for later functions (copy/delete)
+                _this.absPaths.instructor = relPathInstructor;
+                _this.relPaths.instructor = dirInstructor.relPaths;
             };
 
             if(sPath) {
+                // same as instructor
                 relPathStudent = _this.genPath(sPath, sWeek);
-            };
- 
-            // update root directory for later functions (copy/delete)
-            _this.absPath.instructor = relPathInstructor;
-            _this.absPath.student = relPathStudent;
-            _this.absPath.rootStudent = sPath.root;
-
-            // recursively find document paths
-            try {
-                dirInstructor = _this.rSearch(relPathInstructor, "/", {}, null, true, true);
-                if(Object.keys(dirInstructor.nested).length === 0) {
-                    throw "empty dir";
-                };
-            } catch(err) {
-                dirInstructor = {
-                    flatten: {},
-                    nested: {}
-                };
-            };
-
-            try {
-                dirStudent = _this.rSearch(relPathStudent, "/", {}, null, true, true);
-                if(Object.keys(dirStudent.nested).length === 0) {
-                    throw "empty dir";
-                };
-            } catch(err) {
-                dirStudent = {
-                    flatten: {},
-                    nested: {}
-                }
+                dirStudent = _this.rSearch(relPathStudent, "/", {}, null, true, true, "student");
+                _this.absPaths.student = relPathStudent;
+                // save directory files for easy retrieval during match function
+                _this.absPaths.rootStudent = sPath.root;
+                _this.relPaths.student = dirStudent.relPaths;
             };
 
             // combine results
@@ -63,7 +48,7 @@ const _this = {
                 instructor: dirInstructor, 
                 student: dirStudent
             };
-
+                        
             resolve(dirs);
         } )   
     },
@@ -73,14 +58,14 @@ const _this = {
             // rel path should be the same for both student / teacher
 
             // absolute path of file
-            let source = path.join(_this.absPath.instructor, file);
-            let target = path.join(_this.absPath.student, file);
+            let source = path.join(_this.absPaths.instructor, file);
+            let target = path.join(_this.absPaths.student, file);
             return fse.copy(source, target)
     },
 
     remove: file => {
         let cwd;
-        let target = path.join(_this.absPath.student, file);
+        let target = path.join(_this.absPaths.student, file);
         
         //read delete file current directory
         // if empty also remove the directory
@@ -89,12 +74,23 @@ const _this = {
         .catch( () => fse.remove(target) )
     },
 
+    match: relPath => {
+        let instructorPath = _this.relPaths.instructor[relPath];
+        let studentPath = _this.relPaths.student[relPath];
+
+        if(studentPath && instructorPath) {
+            return true;
+        }else {
+            return false;
+        };
+    },
+
     isEmptyAfterRemove: (file) => {
         return new Promise ( (resolve, reject) => {
             //split into params
             let params = file.split("\\");
             params.pop();
-            let cwd = path.join(_this.absPath.student, params.join("\\"));
+            let cwd = path.join(_this.absPaths.student, params.join("\\"));
 
             return fse.readdir(cwd)
             .then( files => {
@@ -107,11 +103,18 @@ const _this = {
         });
     },
 
-    rSearch: (abs, rel, node, queue, root, flatten) => {
+    rSearch: (abs, rel, node, queue, root, flatten, role) => {
         // check for existing dir before reading
         let isDir = _this.isDir(abs);
         let exists = fse.existsSync(abs);
 
+        if(root && !exists) {
+            return {
+                flatten: {},
+                relPaths: {},
+                nested: {}
+            };
+        }
         if(!queue && isDir && exists) {  
             try {
                 queue = fse.readdirSync(abs);
@@ -156,14 +159,16 @@ const _this = {
         // final config after finished with recursive loop
         if(root) {
             let flatNode;
+
             if(flatten) {
                 let clone = _this.clone(node);
                 flatNode = _this.flatten(clone, null, true);
-            };
+            };   
             let result = {
-                flatten: flatNode,
+                flatten: flatNode.flatten,
+                relPaths: flatNode.relPaths,
                 nested: node
-            };
+            };   
             return result;
         };
     },
@@ -210,15 +215,20 @@ const _this = {
         if(root) {
 
             let optimized = new Object();
-            
+            let relPaths = new Object();
+
             for(let key in flatten) {
-                // console.log(flatten[key].__info)
                 if(flatten[key].__info) {
                     optimized[key] = {};
                     optimized[key].__info = flatten[key].__info;
+                    relPaths[flatten[key].__info.rel] = flatten[key].__info.rel;
                 }
             };
-            return optimized;
+
+            return {
+                flatten: optimized,
+                relPaths: relPaths
+            };
         }
     },
 
@@ -228,8 +238,11 @@ const _this = {
             if(el[0] === ":") {
                 el = el.substring(1);
                 if(el === "week"){
-                    return dirPath = path.join(dirPath, cWeek)
-                }else {
+                    return dirPath = path.join(dirPath, cWeek);
+                }else if(el === "day") {
+                    let day = _this.genToday();
+                    return dirPath = path.join(dirPath, day);
+                } {
                     return dirPath = path.join(dirPath, dir[el]);
                 };
             }else {
@@ -237,6 +250,17 @@ const _this = {
             }
         });
         return dirPath;
+    },
+
+    genToday: () => {
+        let day = new Date().getDay();
+        if(day <= 2 || day === 7) {
+            return "01-Day";
+        } else if(day > 2 && day <= 4) {
+            return "02-Day";
+        } else if(day > 4 && day <= 6) {
+            return "03-Day";
+        };
     },
 
     isFile: name => {

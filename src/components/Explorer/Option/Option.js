@@ -7,11 +7,11 @@ const Option = props =>
     <div styleName="option">
         {props.role === "instructor" ?
             <div>
-                <Action icon="copy" onClick={props.handleCopy}/>
+                <Action ispushed={props.ispushed} icon="copy" onClick={props.handleCopy}/>
             </div>
         :
             <div>
-                <Action icon="remove" onClick={props.handleRemove}/>
+                <Action ispushed={props.ispushed} icon="remove" onClick={props.handleRemove}/>
             </div>
         }
     </div>

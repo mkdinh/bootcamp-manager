@@ -23,7 +23,7 @@ class Activity extends Component {
     }
 
     componentWillReceiveProps(props) {
-        this.initialize(props.cWeek);
+        if(this.state.initialized) this.initialize(props.cWeek);
     }
 
     initialize = cWeek => {
@@ -36,7 +36,7 @@ class Activity extends Component {
 
     render() {
         const { instructor, student, initialized } = this.state;
-
+        
         return (
            initialized ? 
                 <Explorer>
@@ -50,6 +50,7 @@ class Activity extends Component {
                     week={this.props.cWeek}
                     background="#292929"
                     copy={initializer.copy}
+                    match={initializer.match}
                     initialize={this.initialize}/>
 
                     <Panel directory
@@ -61,6 +62,7 @@ class Activity extends Component {
                     week={this.props.cWeek}
                     width={60}
                     remove={initializer.remove}
+                    match={initializer.match}
                     initialize={this.initialize}/>
                 </Explorer>
             : null

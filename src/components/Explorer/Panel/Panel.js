@@ -18,7 +18,10 @@ let Panel = (props) => {
 
     return (
         <div style={style} styleName="panel">
-            <h1 styleName="panel-header">{props.header || props.role }</h1>
+            {props.header ? 
+                <h1 styleName="panel-header">{props.header || props.role }</h1> 
+            : null}
+            
             {props.directory ? 
                 Object.keys(props.data.nested).length ?
                     <div styleName="panel-content">

@@ -55,25 +55,30 @@ class Item extends Component {
         const numFile = Object.keys(file).length;
         const info = file.__info;
         const isDir = file.__info.type === "dir";
-
+        
+        const isPushed = this.props.match ? this.props.match(info.rel) : null;
+        // console.log(isPushed)
         return (
             
             <li onClick={isDir ? this.handleDirClick : this.handleFileClick} 
             styleName={`
                 ${this.state.expand && this.props.clevel === 1 ? "bordered" : ""}
                 item ${this.state.expand ? "expand" : ""}
-                clevel-${this.props.clevel}`
+                clevel-${this.props.clevel}
+                ${isPushed ? "pushed" : ""}`
             }>
                 <div styleName="item-content">
                     <FileType ext={info.ext} 
                     type={info.type} 
+                    ispushed={this.state.isPushed ? "true" : "false"}
                     expand={this.state.expand ? "true" : "false"}/> 
 
                     <span styleName="item-name">{info.name}</span>
         
                     <Option rel={info.rel} 
                     role={this.props.role}
-                    handleCopy={this.handleCopy} 
+                    handleCopy={this.handleCopy}
+                    ispushed={this.state.isPushed ? "true" : "false"} 
                     handleRemove={this.handleRemove}/>
                 </div>
 

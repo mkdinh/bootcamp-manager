@@ -30,7 +30,7 @@ const FileIcon = props => {
     return (
         props.type === "dir" ?
             <Fa name={props.expand === "true" ? "folder-open-o" : "folder-o"} 
-            styleName={`icon-file dir`} {...props}/>
+            styleName={`icon-file dir ${props.ispushed ? "pushed" : ""}`} {...props}/>
         :
             <Fa name={fileIcon()} styleName={`icon-file ${cssName}`} {...props}/>
     )

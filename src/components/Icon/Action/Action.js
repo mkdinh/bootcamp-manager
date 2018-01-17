@@ -4,7 +4,11 @@ import CSSModules from "react-css-modules";
 import styles from "./Action.css";
 
 const Remove = props =>    
-    <button styleName={`action ${props.icon}`} {...props}>
+    <button styleName={`
+        action 
+        ${props.icon} 
+        ${props.ispushed ? "pushed": ""}
+    `} {...props}>
         <Fa name={props.icon}/>
     </button>
 

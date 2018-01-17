@@ -22,7 +22,6 @@ class Navbar extends Component {
         let page = ev.target.getAttribute("to");
         this.setState({ active: active });
         this.props.history.replace(page);
-        console.log(page)
     }
     
     render() {

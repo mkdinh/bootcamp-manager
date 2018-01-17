@@ -26,7 +26,7 @@ class List extends Component {
     }
 
     componentWillUnmount = () => {
-        if(this.props.clevel === 1) {
+        if(this.props.clevel === 0) {
             let list = this.list;
             list.removeEventListener("onscroll", this.scrollIndicator, this);
         };
@@ -88,6 +88,7 @@ class List extends Component {
                                     <Item 
                                     clevel={clevel}
                                     copy={this.props.copy}
+                                    match={this.props.match}
                                     remove={this.props.remove}
                                     initialize={this.props.initialize}
                                     week={this.props.week}

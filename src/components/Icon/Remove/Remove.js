@@ -4,8 +4,7 @@ import CSSModules from "react-css-modules";
 import styles from "./Remove.css";
 
 const Remove = props =>    
-    <button styleName={`icon-file remove`} {...props}>
-        {console.log(props)}
+    <button styleName={`icon-file remove ${props.ispushed ? "pushed": ""}`} {...props}>
         <Fa name="remove"/>
     </button>
 

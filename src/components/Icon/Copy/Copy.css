@@ -1,3 +1,7 @@
 .copy {
-    color: rgb(0, 0, 0);
+    color: rgb(86, 160, 211);   
 }   
+
+.copy.pushed {
+    color: rgb(0, 0, 0);
+}

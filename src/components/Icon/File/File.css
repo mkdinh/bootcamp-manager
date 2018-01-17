@@ -7,6 +7,10 @@
     outline: none;
 }
 
+.icon-file.pushed {
+    /* color: rgb(0, 0, 0) */
+}
+
 .html {
     color: rgb(241,101,36);
 }

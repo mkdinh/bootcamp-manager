@@ -6,7 +6,7 @@ import styles from "./Copy.css";
 const Copy = props =>    
 
     <Fa name="copy" 
-    styleName={`icon-file copy`} {...props}/>
+    styleName={`icon-file copy ${props.ispushed ? "pushed": ""}`} {...props}/>
   
 
 const options   = {

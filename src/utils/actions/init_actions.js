@@ -41,28 +41,20 @@ const getPath = (dir, cWeek, today) => {
         // find current day
     });
     //revert changes
-    dir.params.pop();
-    delete dir.day;
+    if(today) {
+        dir.params.pop();
+        delete dir.day;
+    }
     
     return dirPath;
 }
 
 // parse info from files
 const getInfo = (cwd, files) => {
-    return new Promise ((resolve, reject) => {
-        let info = {};
-        let lessonPlan = files.filter(el => el.match("LessonPlan.md"))[0];
-        lessonPlan = path.join(cwd, lessonPlan);
-        parseLessonPlan(lessonPlan, (err, activities) => {
-                info.activities = {};
-                if(err) {
-                    info.activities.nested = {};
-                }else {
-                    info.activities.nested = activities;
-                };
-                resolve(info);
-        });
-    })
+    let info = {};
+    let lessonPlan = files.filter(el => el.match("LessonPlan.md"))[0];
+    lessonPlan = path.join(cwd, lessonPlan);
+    return parseLessonPlan(lessonPlan)
 };
 
 const parseLessonPlan = (file, cb) => {
@@ -71,96 +63,67 @@ const parseLessonPlan = (file, cb) => {
             end: 0
     };
     
-    fse.readFile(file, "utf8")
-    .then(content => {
-        content = content.split("\n\r")
-
-        for(let i = 0; i < 20; i++) {
-            if(content[i].match("Summary:")) {
-                let summary = content[i];     
-                // find the activity number for today lesson
-                let range = summary.match(/(\w+)-(\w+)/);
-                // if there can't find activity throw error
-                if(!range) throw cb(new Error("activity is not available", null))
-                // parse out activity information
-                return parseActivities(
-                    parseInt(range[1]), 
-                    parseInt(range[2]), 
-                    cb
-                );
+    return fse.readFile(file, "utf8")
+        .then(overview => {
+            let data = {
+                overview: [],
+                today_activities: []
             };
-        };
-        // no summary
-        throw cb(new Error("summary is not available", null))
-    })
-    .catch( err => err );
-};
 
-const parseActivities = (start, end, cb) => {
-    let activities = {};
-    // find absPath of files in instructor directory
-    let cWeek = configs.weeks.current.subject;
-    let activityConfigs = configs.instructor.activities;
-    let activityPath = getPath(activityConfigs, cWeek);
-    // get rel to find the absPath for student directory
-    let relPath = activityPath.replace(configs.instructor.root, "");
-    // grab the relative and absolute path
-    fse.readdir(activityPath, "utf8")
-    .then( files => {
-        for(let i = start - 1; i <= end - 1; i++) {
-            let file = {};
-            let name = files[i];
-            let info = {
-                name: name,
-                type: "file",
-                ext: "md",
-                abs: path.join(activityPath, name),
-                rel: path.join(relPath, name)
+            overview = overview.split("\n\r")
+            data.overview = overview;
+
+            for(let i = 0; i < 20; i++) {
+                if(overview[i].match("Summary:")) {
+                    let summary = overview[i];     
+                    // find the activity number for today lesson
+                    let range = summary.match(/(\w+)-(\w+)/);
+                    // if there can't find activity throw error
+                    if(range) {
+                        data.today_activities = [range[1], range[2]]
+                    };
+                    return data;
+                };
             };
-            file.__info = info;
-            activities[name] = file;
-        }
-
-        return cb(null, activities);
-    });
-}
-
-const parseTimeTracker = (file, cb) => {
-    fse.readFile(file, "utf8")
-    .then( content => {
-        cb(content);
-    })
+            // no summary
+            throw cb(new Error("summary is not available", null))
+        })
+        .catch( err => err );
 };
 
 // handle dispatching functions
 //--------------------------------------------------------
 export default () => 
-    dispatch => 
-        new Promise((resolve, reject) => {
+    dispatch => {
+        let dayPath, todayPath;
+
+        return new Promise((resolve, reject) => {
             fse.readJson(__dirname + "/config.json")
             .then( json => {
-                    for(let key in json) {
-                        dispatch({
-                            type: "INIT_APP",
-                            payload: { ...json[key], key: key }
-                        });
-                    };
-                    //global variable
-                    configs = json;
-                    let dayPath = getTodayPath();
-                    let todayPath = getPath(json.instructor.slides, json.weeks.current.week, dayPath);
-                    fse.readdir(todayPath, "utf8")
-                    .then(files => {
-                        getInfo(todayPath, files)
-                        .then(info => {
-                            dispatch({
-                                type: "INIT_TODAY_LESSON",
-                                payload: info
-                            })
-                            resolve();
-                        });
-                    })
-                })
+                for(let key in json) {
+                    dispatch({
+                        type: "INIT_APP",
+                        payload: { ...json[key], key: key }
+                    });
+                };
+                //global variable
+                configs = { ...json };
+                dayPath = getTodayPath();
+                todayPath = getPath(json.instructor.slides, json.weeks.current.week, dayPath);
+
+                return fse.readdir(todayPath, "utf8");
+            })
+            .then( files => getInfo(todayPath, files) )
+            .then( info => {
+                
+                dispatch({
+                    type: "INIT_TODAY_LESSON",
+                    payload: info
+                });
+                    
+                resolve();
+            } )
             .catch( err => reject(err) )
+
         })
-        
+    }  
