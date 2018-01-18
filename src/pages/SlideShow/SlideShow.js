@@ -50,6 +50,7 @@ class SlideShow extends Component {
                     week={this.props.cWeek}
                     background="#292929"
                     copy={initializer.copy}
+                    open={initializer.openFile}
                     initialize={this.initialize}/>
 
                     <Panel directory
@@ -61,6 +62,7 @@ class SlideShow extends Component {
                     week={this.props.cWeek}
                     width={60}
                     remove={initializer.remove}
+                    open={initializer.openFile}
                     initialize={this.initialize}/>
                 </Explorer>
             : null

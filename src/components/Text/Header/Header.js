@@ -1,6 +1,12 @@
 import React from "react";
+import CSSModules from "react-css-modules";
+import styles from "./Header.css";
 
-export const Header = props => {
+const options = {
+    handleNotFoundStyleName: "ignore"
+};
+
+let Header = props => {
 
     const style = {
         fontWeight: "bold",
@@ -12,6 +18,10 @@ export const Header = props => {
     }
 
     return (
-        <h1 style={style}>{props.content}</h1>
+        <h1 styleName="header" style={style}>{props.content}</h1>
     )
-}
+};
+
+Header = CSSModules(Header, styles, options);
+
+export { Header };

@@ -17,6 +17,35 @@ class Item extends Component {
     state = {
         expand: false,
         visible: true,
+        hasSolved: false,
+        hasUnSolved: false
+    }
+    
+    componentDidMount() {
+        this.checkStatus(this.props);
+    }
+
+    componentWillReceiveProps(props) {
+        this.checkStatus(props);
+    }
+
+    checkStatus = props => {
+        // check if students have solved or unsolved folder
+        if(props.role === "student" && props.clevel === 1) {
+            // grab rel paths and check against student
+            let unsolvedFolder = props.item["Unsolved"];
+            let solvedFolder = props.item["Solved"];
+            if(unsolvedFolder) {
+                this.setState({ hasUnsolved: true }); 
+            } else {
+                this.setState( { hasUnsolved: false })
+            }
+            if(solvedFolder) {
+                this.setState({ hasSolved: true });
+            } else {
+                this.setState({ hasSolved: false })
+            }
+        };
     }
 
     toggleExpand = ev => this.setState({ expand: !this.state.expand })
@@ -37,7 +66,10 @@ class Item extends Component {
         let cWeek = this.props.week;
 
         this.props.remove(info.rel)
-        .then( () => this.props.initialize(cWeek) )
+        .then( () => {
+            console.log("remove and reinit")
+            this.props.initialize(cWeek) 
+        })
         .catch(err => console.error(err) );
     }
 
@@ -45,22 +77,26 @@ class Item extends Component {
         ev.stopPropagation();
         this.toggleExpand();
     }
+    
 
     handleFileClick = ev => {
-        ev.stopPropagation()
+        ev.stopPropagation();
+        let relPath = this.props.item.__info.rel;
+        this.props.open(relPath);
     }
 
     render() {
+        const { hasUnsolved, hasSolved } = this.state;
         const file = this.props.item;
         const numFile = Object.keys(file).length;
         const info = file.__info;
         const isDir = file.__info.type === "dir";
         
         const isPushed = this.props.match ? this.props.match(info.rel) : null;
-        // console.log(isPushed)
+        
         return (
             
-            <li onClick={isDir ? this.handleDirClick : this.handleFileClick} 
+            <li onClick={this.handleDirClick} onDoubleClick={this.handleFileClick}
             styleName={`
                 ${this.state.expand && this.props.clevel === 1 ? "bordered" : ""}
                 item ${this.state.expand ? "expand" : ""}
@@ -77,8 +113,11 @@ class Item extends Component {
         
                     <Option rel={info.rel} 
                     role={this.props.role}
+                    clevel={this.props.clevel}
+                    hasSolved={hasSolved ? "true" : undefined}
+                    hasUnsolved={hasUnsolved ? "true" : undefined}
                     handleCopy={this.handleCopy}
-                    ispushed={this.state.isPushed ? "true" : "false"} 
+                    ispushed={this.state.isPushed ? "true" : undefined} 
                     handleRemove={this.handleRemove}/>
                 </div>
 

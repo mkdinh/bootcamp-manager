@@ -2,6 +2,7 @@ import React from "react";
 import Action from "../../Icon";
 import CSSModules from "react-css-modules";
 import styles from "./Option.css";
+import Fa from "react-fontawesome";
 
 const Option = props => 
     <div styleName="option">
@@ -11,6 +12,17 @@ const Option = props =>
             </div>
         :
             <div>
+                {props.clevel === 1 ?
+                    <span styleName="status-wrapper">
+                        <span styleName={`option-status ${props.hasUnsolved ? "unsolved" : ""}`}>
+                            <Fa name=""/>unsolved
+                        </span> 
+                        <span styleName={`option-status ${props.hasSolved ? "solved" : ""}`}>
+                            solved
+                        </span>
+                    </span> 
+                : null}
+
                 <Action ispushed={props.ispushed} icon="remove" onClick={props.handleRemove}/>
             </div>
         }

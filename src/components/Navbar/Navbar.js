@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CSSModules from "react-css-modules";
 import styles from "./Navbar.css";
 import NavItem from "./NavbarItem";
+import { ExitButton } from "../Button/ExitButton";
 import WeekSelector from "./WeekSelector";
 import { withRouter } from "react-router";
 
@@ -9,7 +10,7 @@ import { withRouter } from "react-router";
 
 class Navbar extends Component {
     state = {
-        active: "/"
+        active: "home"
     }
 
     componentDidMount() {
@@ -31,7 +32,7 @@ class Navbar extends Component {
         return (
             <ul styleName="navbar">
                 <NavItem 
-                to="/" 
+                to="/home" 
                 active={active === "home" ? "true" : undefined} 
                 onClick={this.handleClick} 
                 content="home"/>
@@ -66,6 +67,8 @@ class Navbar extends Component {
                 content="root"/>
 
                 <WeekSelector/>
+
+                <ExitButton/>
             </ul>
         )
     }

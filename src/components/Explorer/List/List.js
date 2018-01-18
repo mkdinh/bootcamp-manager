@@ -88,6 +88,7 @@ class List extends Component {
                                     <Item 
                                     clevel={clevel}
                                     copy={this.props.copy}
+                                    open={this.props.open}
                                     match={this.props.match}
                                     remove={this.props.remove}
                                     initialize={this.props.initialize}

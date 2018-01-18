@@ -1,5 +1,6 @@
 {
   "instructor": {
+    "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\FullStack-Lesson-Plans",
     "activities": {
       "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\FullStack-Lesson-Plans",
       "path": "\\01-Class-Content",
@@ -42,6 +43,7 @@
     }
   },
   "student": {
+    "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\UNCRAL201801-T-TH-Class-Repository-FSF",
     "activities": {
       "root": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\UNCRAL201801-T-TH-Class-Repository-FSF",
       "path": "\\01-Class-Content\\",
@@ -87,10 +89,10 @@
   "weeks": {
     "total": "24",
     "current": {
-      "week": "02-Week",
-      "subject": "02-css-bootstrap"
+      "week": "01-Week",
+      "subject": "01-html-git-css"
     },
     "start_date": 1515042000000,
-    "current_date": 1516152496218
+    "current_date": 1516301239159
   }
 }

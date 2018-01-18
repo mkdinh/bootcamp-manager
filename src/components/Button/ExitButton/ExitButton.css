@@ -1,0 +1,13 @@
+.button-exit {
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: rgb(158, 0, 0);
+    cursor: pointer;
+}
+    
+.button-exit:hover {
+    color: rgb(228, 0, 0);
+}

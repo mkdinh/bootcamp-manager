@@ -40,7 +40,7 @@ class Root extends Component {
         return (
            initialized ? 
                 <Explorer>
-                    <Panel
+                    <Panel 
                     data={instructor}
                     width={40}
                     role="instructor"
@@ -48,6 +48,7 @@ class Root extends Component {
                     page="activities"
                     background="#292929"
                     copy={initializer.copy}
+                    open={initializer.openFile}
                     initialize={this.initialize}/>
 
                     <Panel directory
@@ -57,6 +58,7 @@ class Root extends Component {
                     page="activities"
                     width={60}
                     remove={initializer.remove}
+                    open={initializer.openFile}
                     initialize={this.initialize}/>
                 </Explorer>
             : null

@@ -49,6 +49,7 @@ class Activity extends Component {
                     path={this.props.cWeek.week}
                     week={this.props.cWeek}
                     background="#292929"
+                    open={initializer.openFile}
                     copy={initializer.copy}
                     match={initializer.match}
                     initialize={this.initialize}/>
@@ -61,6 +62,7 @@ class Activity extends Component {
                     path={this.props.cWeek.subject}
                     week={this.props.cWeek}
                     width={60}
+                    open={initializer.openFile}
                     remove={initializer.remove}
                     match={initializer.match}
                     initialize={this.initialize}/>

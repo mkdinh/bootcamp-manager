@@ -65,7 +65,8 @@
 }
 
 .item.pushed {
-    background: rgb(0, 0, 0);
+    background: rgb(39, 41, 56);
+    color: rgb(207, 207, 207);
 }
 
 

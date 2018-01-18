@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import List from "../List";
-import DirForm from "../../Form/DirectoryForm";
 import CSSModules from "react-css-modules";
 import styles from "./Panel.css";
 

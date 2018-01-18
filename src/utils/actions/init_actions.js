@@ -96,7 +96,6 @@ const parseLessonPlan = (file, cb) => {
 export default () => 
     dispatch => {
         let dayPath, todayPath;
-
         return new Promise((resolve, reject) => {
             fse.readJson(__dirname + "/config.json")
             .then( json => {

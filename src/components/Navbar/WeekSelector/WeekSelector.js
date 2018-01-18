@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import reactDOM from "react-dom";
 import CSSModules from "react-css-modules";
-import weeks from "../../../weeks.json";
+import weeks from "./weeks.json";
 import { connect } from "react-redux";
 import actions from "../../../utils/actions";
 import styles from "./WeekSelector.css";

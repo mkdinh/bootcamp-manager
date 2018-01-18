@@ -25,7 +25,7 @@ class App extends Component {
                 <div style={style.container}>
                 <Navbar cWeek={this.props.cWeek} />
                     <Switch>
-                    <Route exact path="/" component={Home}/>
+                    <Route exact path="/home" component={Home}/>
                     <Route exact path={"/activities/:week"} component={Activity}/>
                     <Route exact path={"/projects/:week"} component={Project}/>
                     <Route exact path={"/homeworks/:week"} component={Homework}/>

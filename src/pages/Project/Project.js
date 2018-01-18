@@ -49,6 +49,7 @@ class Project extends Component {
                     path={this.props.cWeek.week}
                     week={this.props.cWeek}
                     background="#292929"
+                    open={initializer.openFile}
                     copy={initializer.copy}
                     initialize={this.initialize}/>
 
@@ -60,6 +61,7 @@ class Project extends Component {
                     path={this.props.cWeek.subject}
                     week={this.props.cWeek}
                     width={60}
+                    open={initializer.openFile}
                     remove={initializer.remove}
                     initialize={this.initialize}/>
                 </Explorer>

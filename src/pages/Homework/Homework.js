@@ -50,6 +50,7 @@ class Homework extends Component {
                     week={this.props.cWeek}
                     background="#292929"
                     copy={initializer.copy}
+                    open={initializer.openFile}
                     initialize={this.initialize}/>
 
                     <Panel 
@@ -60,6 +61,7 @@ class Homework extends Component {
                     path={this.props.cWeek.subject}
                     week={this.props.cWeek}
                     width={60}
+                    open={initializer.openFile}
                     remove={initializer.remove}
                     initialize={this.initialize}/>
                 </Explorer>

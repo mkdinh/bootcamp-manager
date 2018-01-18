@@ -1,18 +1,15 @@
 var webpack = require("webpack");
 var path = require("path");
+const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var combineLoaders = require("webpack-combine-loaders");
-var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 
 module.exports = {
-    entry: {
-        app: ["./src/index.js"]
-    },
 
-    output: {
-        path: path.join(__dirname, "./src/built"),
-        filename: "bundle.js",
-        publicPath: "http://localhost:8080/built/"
+    context: path.resolve(__dirname, "src"),
+
+    entry: {
+        app: ["./index.js","./initHOC.js", "./electron-starter.js", "./electron-wait-react.js"]
     },
 
     target: "electron-main",
@@ -20,14 +17,7 @@ module.exports = {
     node: {
         __dirname: false,
         __filename: false
-      },
-
-    devServer: {
-        contentBase: "./public",
-        publicPath: "http://localhost:8080/built/"
     },
-
-    devtool: "inline-cheap-module-source-map",
 
     module: {
         loaders: [
@@ -56,8 +46,5 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new FriendlyErrorsWebpackPlugin()
-        // ignore any fs or ipc modules
-        // new webpack.IgnorePlugin(new RegExp("^(fs|ipc)$")),
- 
     ]
 };

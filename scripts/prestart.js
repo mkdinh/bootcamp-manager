@@ -2,8 +2,8 @@ var fse = require("fs-extra");
 var path = require("path");
 
 // grab config to find the root path
-var file = path.join(__dirname, "../src/config.json");
-let weekFile = path.join(__dirname, "../src/weeks.json");
+var file = path.join(__dirname, "../public/config.json");
+let weekFile = path.join(__dirname, "../public/weeks.json");
 
 fse.readJson(file, (err, configs) => {
     if(err) {
@@ -28,7 +28,6 @@ fse.readJson(file, (err, configs) => {
         })
 
         // run git pull before start app
-
         var commandStudent = "pull " + rootStudent + " origin master";
 
         // start process before starting app

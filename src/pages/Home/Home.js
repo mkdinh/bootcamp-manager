@@ -88,6 +88,7 @@ export class Home extends Component {
                     path={this.props.cWeek.week}
                     week={this.props.cWeek}
                     background="#292929"
+                    open={initialize.openFile}
                     copy={initializer.copy}
                     match={initializer.match}
                     initialize={this.initialize}/>
