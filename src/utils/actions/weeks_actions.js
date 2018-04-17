@@ -1,6 +1,7 @@
 // import json fs functions
 //--------------------------------------------------------
 import jsonUpdater from "../functions/json_updater";
+import json_updater from "../functions/json_updater";
 
 // handle dispatching functions
 //--------------------------------------------------------
@@ -15,8 +16,6 @@ export default {
                         payload: { current: week }
                     })
                 )
-        )
-            
-    }, 
-
+        )   
+    }
 };

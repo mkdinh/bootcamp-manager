@@ -1,25 +1,30 @@
 const net = require("net");
 const exec = require("child_process").exec;
+const electron = require("electron");
 const port = 8080;
-const ePort = port + 1;
 const client = new net.Socket();
+const app = electron.remote.app;
+
 let startedElectron = false;
-console.log(process.env.NODE_ENV)
 if(process.env.NODE_ENV !== "production") {
     process.env.ENTRY_URL = "http://localhost:" + port;
     process.env.NODE_ENV = "development";
 };
 
-const tryConnection = () => client.connect({ port: port }, () => {
-    client.end();
-    if(!startedElectron) {
-        startedElectron = true;
-        setTimeout(() => exec("npm run electron"), 10000);
-    };
-});
+// process.env.APP_ROOT = app.getAppPath();
 
-tryConnection();
+// const tryConnection = () => client.connect({ port: port }, () => {
+//     client.end();
+//     if(!startedElectron) {
+//         startedElectron = true;
+//         exec("npm run electron-start");
+//     };
+// });
 
-client.on("error", err => {
-    setTimeout(tryConnection, 1000);
-})
+// tryConnection();
+
+// client.on("error", err => {
+//     if(!startedElectron) {
+//         setTimeout(tryConnection, 1000);
+//     }
+// })

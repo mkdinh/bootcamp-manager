@@ -22,7 +22,25 @@ class List extends Component {
         // if containing files, then initialize
         if(this.props.clevel === 0) {
             this.initialize();
+            // this.list.scrollTop = this.list.scrollHeight;
         };
+    }
+
+    componentWillReceiveProps(props) {
+        this.checkListLength();
+    };
+
+    checkListLength = () => {
+        let list = this.list;
+        if(list.scrollHeight > list.clientHeight) {
+            this.setState({ maxBottom: false })
+        } else {
+            // if list shorten to less than or equal to clientheight
+            // hide bottom arrow
+            if (!this.state.maxBottom) {
+                this.setState({ maxBottom: true });
+            }
+        }
     }
 
     componentWillUnmount = () => {
@@ -33,12 +51,9 @@ class List extends Component {
     }
 
     initialize = () => {
-        let list = this.list;
-        if(list.scrollHeight > list.clientHeight) {
-            this.setState({ maxBottom: false })
-        }
-        list.addEventListener("scroll", this.scrollIndicator, this);
-        list.addEventListener("click", this.clickIndicator, this)
+        this.checkListLength();
+        this.list.addEventListener("scroll", this.scrollIndicator, this);
+        this.list.addEventListener("click", this.clickIndicator, this)
     }
 
     clickIndicator = ev => {
@@ -88,6 +103,7 @@ class List extends Component {
                                     <Item 
                                     clevel={clevel}
                                     copy={this.props.copy}
+                                    exists={this.props.exists}
                                     open={this.props.open}
                                     match={this.props.match}
                                     remove={this.props.remove}
@@ -99,6 +115,7 @@ class List extends Component {
                                     item={data[file]}/>
                                 : null
                             )}
+                            <li styleName="list-bottom" ref={node => this.bottom = node}></li>
                         </ul>
                     :
                         clevel > 1 ?

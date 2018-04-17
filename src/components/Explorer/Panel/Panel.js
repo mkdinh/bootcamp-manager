@@ -12,7 +12,6 @@ let Panel = (props) => {
         background: props.background || "transparent",
         width: props.width + "%"
     }
-
     const _props =  props.data ? { ...props, data: props.data.nested } : null;
 
     return (

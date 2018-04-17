@@ -16,6 +16,7 @@
     cursor: pointer;
     opacity: 0.75;
     transition: all 250ms;
+    user-select: none;
 }
 
 .navbar-item-active {

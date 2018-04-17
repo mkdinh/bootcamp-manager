@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import CSSModules from "react-css-modules";
 import styles from "./Footer.css";
 import Fa from "react-fontawesome";
-import fileManager from "../../utils/functions/fileManager";
+import { GitStatus } from "../Popup"
+import git from "../../utils/functions/git_manager";
 
 const options = {
     allowMultiple: true,
@@ -15,21 +16,36 @@ export default class Footer extends Component {
 
     state = {
         message: "",
+        status: null,
         error: false,
         loading: false,
         disabled: true
-    }
+    };
 
-    toggleLoading = () => this.setState({ loading: !this.state.loading })
+    componentDidMount() {
+        git.init()
+        .then( result => {
+            // only display popup if there are files changes
+            if (result.files.length > 0) {
+                this.setState({ status: result });
+            };
+        })
+        .catch( err => console.log(err));
 
-    handlePush = ev => {
+    };
+
+    toggleLoading = () => this.setState({ loading: !this.state.loading });
+
+    handleCancel = () => this.setState({ status: null });
+
+    handleConfirm = ev => {
         ev.preventDefault();
         if(this.state.message && !this.state.error) {
             this.toggleLoading();
-            fileManager.gitPush(this.state.message)
+            git.status()
             .then( result => {
                 this.toggleLoading();
-                console.log(result);
+                this.setState({ status: result });
             })
             .catch( err => { 
                 this.setState({ message: err.message, error: true })
@@ -38,7 +54,26 @@ export default class Footer extends Component {
         } else {
             this.setState({ error: true, message: "a commit message is required" })
         }
-    }
+    };
+
+    handlePush = ev => {
+        ev.preventDefault();
+        alert("confirmed!")
+        if(this.state.message && !this.state.error) {
+            this.toggleLoading();
+            git.push(this.state.message)
+            .then( result => {
+                this.setState({ message: "", status: null });
+                this.toggleLoading();
+            })
+            .catch( err => { 
+                this.setState({ message: err.message, error: true })
+                console.error(err) 
+            });
+        } else {
+            this.setState({ error: true, message: "a commit message is required" })
+        }
+    };
 
     handleChange = ev => {
         const { name, value } = ev.target;
@@ -49,46 +84,65 @@ export default class Footer extends Component {
                 this.setState( { disabled: true })
             }
         });
-    }
+    };
 
     handleFocus = ev => {
         if(this.state.error) {
             this.setState({ error: false, message: "" })
         }
-    }
+    };
 
     render() {
 
-        const { disabled, error, loading } = this.state;
+        const { disabled, error, loading, status } = this.state;
 
         return (
             <div styleName="footer">
-                    {/* 
-                        append error into message box if push with an empty message 
-                        error message is remove and error === when focus on input
-                    */}
-                    <input 
-                    name="message"
-                    ref={node => this.input = node}
-                    placeholder="commit message (require)"
-                    styleName={`footer-input-message ${error ? "error" : ""}`}
-                    onChange={this.handleChange}
-                    onFocus={this.handleFocus}
-                    value={this.state.message}/>
+                {/* display repo status on first click */}
+                {this.state.status ? <GitStatus status={status}/> : null}
+                {/* 
+                    append error into message box if push with an empty message 
+                    error message is remove and error === when focus on input
+                */}
+                <input 
+                name="message"
+                ref={node => this.input = node}
+                placeholder="commit message (require)"
+                styleName={`footer-input-message ${error ? "error" : ""}`}
+                onChange={this.handleChange}
+                onFocus={this.handleFocus}
+                value={this.state.message}/>
 
-                    {/* button is disabled when loading or when message is empty */}
+
+                {/* button appear only when push */}
+                {this.state.status ? 
                     <button 
-                    disabled={this.state.disabled}
-                    styleName={`footer-button-push ${disabled || loading ? "disabled" : "enabled"}`} 
-                    onClick={this.handlePush}>
+                    styleName={`footer-button cancel ${disabled || loading ? "disabled" : "enabled"}`} 
+                    onClick={this.handleCancel}>
                         <span styleName="footer-button-content">
                             {this.state.loading ? 
                                 <Fa name="circle-o-notch" spin/>
                             :
-                                "Push"}
+                                "Cancel"}
                         </span>
-                    </button>
+                    </button> : null}
+
+                {/* button is disabled when loading or when message is empty */}
+                <button 
+                disabled={this.state.disabled}
+                styleName={`footer-button push ${disabled || loading ? "disabled" : "enabled"}`} 
+                onClick={this.state.status ? this.handlePush : this.handleConfirm}>
+                    <span styleName="footer-button-content">
+                        {this.state.loading ? 
+                            <Fa name="circle-o-notch" spin/>
+                        :
+                        this.state.status ?
+                            "Confirm"
+                        :
+                            "Push"}
+                    </span>
+                </button>
             </div>
-        )
-    }
+        );
+    };
 }

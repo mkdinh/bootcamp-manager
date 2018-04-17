@@ -1,4 +1,5 @@
 .footer {
+    position: relative;
     display: flex;
     flex-direction: row;
     height: 2.5rem;
@@ -6,20 +7,35 @@
     background: rgb(37, 37, 37);
 }
 
-.footer-button-push {
+.footer-button {
     border: none;
-    width: 20%;
-    background: rgb(86, 160, 211);
+    width: 20.25%;
     cursor: pointer;
     transition: all 250ms;
 }
 
-.footer-button-push.enabled:hover {
-    background: rgb(105,194,255)
+.footer-button:active {
+    opacity: 0.75;
 }
 
-.footer-button-push:active {
-    opacity: 0.75;
+.push {
+    background: rgb(86, 160, 211);
+}
+
+.cancel {
+    border: none;
+    width: 20%;
+    background: rgb(255, 71, 71);
+    cursor: pointer;
+    transition: all 250ms;
+}
+
+.push.enabled:hover {
+    background: rgb(105,194,255);
+}
+
+.cancel.enabled:hover {
+    background: rgb(228, 0, 0);
 }
 
 .footer-button-content {

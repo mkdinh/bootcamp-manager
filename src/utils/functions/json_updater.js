@@ -1,8 +1,8 @@
 // import fs extra
 //--------------------------------------------------------
 import fse from "fs-extra";
-const configFile = __dirname + "/config.json"
-
+import path from "path";
+const configFile = path.join(__dirname, "../src/config.json")
 // handle updating json file
 //--------------------------------------------------------
 export default {

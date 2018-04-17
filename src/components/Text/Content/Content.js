@@ -28,8 +28,10 @@ class Content extends Component {
     };
 
     componentDidMount() {
-        this.content.addEventListener("scroll", this.handleScroll, this);
-        
+        // manipulate scroll top positions
+        window.addEventListener("scroll", this.handleScroll);
+        window.addEventListener("keydown", this.handleKeyPress);
+
         if(this.props.cSection) {
             this.content.scrollTop = this.props.cSection.offset;
         } else {
@@ -41,6 +43,29 @@ class Content extends Component {
                 this.bookmark(child.offSetTop);
             }
         })
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("scroll", this.handleScroll);
+        window.removeEventListener("keydown", this.handleKeyPress);
+    }
+
+    handleKeyPress = ev => {
+        switch(ev.which) {
+            case 37:
+                let prevIndex = this.props.cSection.index - 1;
+                let prevSection = this.state.sections[prevIndex];
+                this.content.scrollTop = prevSection.offset;
+                this.props.dispatch(actions.home.cSection(prevSection));
+            break
+            
+            case 39:
+                let nextIndex = this.props.cSection.index + 1;
+                let nextSection = this.state.sections[nextIndex];
+                this.content.scrollTop = nextSection.offset;
+                this.props.dispatch(actions.home.cSection(nextSection)); 
+            break
+        }
     }
 
     handleScrollEnd = offset => {
@@ -62,6 +87,7 @@ class Content extends Component {
     _timeout = null;
     
     handleScroll = ev => {
+        console.log('scrolling')
         if(this._timeout) { // clear if there already a timeout
             clearTimeout(this._timeout);
         }
@@ -93,7 +119,7 @@ class Content extends Component {
         let sections = [];
         this.content.childNodes.forEach(child => {
             if(child.className.match("three")) {
-                let offset = child.offsetTop - 125;
+                let offset = child.offsetTop;
                 let mark = {
                     index: sections.length,
                     offset: offset
@@ -109,7 +135,8 @@ class Content extends Component {
         const cSection = this.props.cSection;
 
         return (
-            <div styleName="content-wrapper">
+            <div ref={node => this.wrapper = node}
+            styleName="content-wrapper">
                 <div styleName="content-bookmark">
                 {this.state.sections.map(el => 
                     <button 

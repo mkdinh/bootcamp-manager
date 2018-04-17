@@ -17,7 +17,6 @@ module.exports = merge(common, {
     
 
     devtool: "inline-cheap-module-source-map",
-
     plugins: [
         new FriendlyErrorsWebpackPlugin()
     ]

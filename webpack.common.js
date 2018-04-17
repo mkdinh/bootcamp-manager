@@ -9,7 +9,7 @@ module.exports = {
     context: path.resolve(__dirname, "src"),
 
     entry: {
-        app: ["./index.js","./initHOC.js", "./electron-starter.js", "./electron-wait-react.js"]
+        app: ["./index.js", "./electron-starter.js", "./electron-wait-react.js"]
     },
 
     target: "electron-main",

@@ -4,9 +4,9 @@ import initializer from "../../utils/functions/initializer";
 import { connect } from "react-redux";
 const mapStateToProps = state =>
     ({
-        sInstructor: state.instructor.slides,
-        sStudent: state.student.slides,
-        cWeek: state.weeks.current
+        cWeek: state.weeks.current,
+        roots: state.directories.roots,
+        slides: state.directories.slides
     })
 
 @connect(mapStateToProps)
@@ -19,17 +19,18 @@ class SlideShow extends Component {
     }
 
     componentDidMount() {
-        this.initialize(this.props.cWeek);
+        this.initialize();
     }
 
     componentWillReceiveProps(props) {
-        this.initialize(props.cWeek);
+        if(this.state.initialized) {
+            setTimeout(() => this.initialize(), 0);
+        };
     }
 
-    initialize = cWeek => {
-        let instructorPath = this.props.sInstructor;
-        let studentPath = this.props.sStudent;
-        initializer.initialize(instructorPath, studentPath, cWeek.week, cWeek.subject)
+    initialize = () => {
+        let { roots, slides, cWeek } = this.props;
+        initializer.initialize(roots, slides, cWeek)
         .then(dirs => this.setState({ ...dirs, initialized: true }))
         .catch(err => console.log(err));   
     }
@@ -62,6 +63,7 @@ class SlideShow extends Component {
                     week={this.props.cWeek}
                     width={60}
                     remove={initializer.remove}
+                    exists={initializer.exists}
                     open={initializer.openFile}
                     initialize={this.initialize}/>
                 </Explorer>

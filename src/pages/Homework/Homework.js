@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import Explorer, { Panel } from "../../components/Explorer";
 import initializer from "../../utils/functions/initializer";
 import { connect } from "react-redux";
+
 const mapStateToProps = state =>
     ({
-        hInstructor: state.instructor.homework,
-        hStudent: state.student.homework,
-        cWeek: state.weeks.current
+        cWeek: state.weeks.current,
+        roots: state.directories.roots,
+        homeworks: state.directories.homeworks
     })
 
 @connect(mapStateToProps)
@@ -19,17 +20,18 @@ class Homework extends Component {
     }
 
     componentDidMount() {
-        this.initialize(this.props.cWeek);
+        this.initialize();
     }
 
     componentWillReceiveProps(props) {
-        this.initialize(props.cWeek);
+        if(this.state.initialized) {
+            setTimeout(() => this.initialize(), 0);
+        };
     }
 
-    initialize = cWeek => {
-        let instructorPath = this.props.hInstructor;
-        let studentPath = this.props.hStudent;
-        initializer.initialize(instructorPath, studentPath, cWeek.subject, cWeek.subject)
+    initialize = () => {
+        let { roots, homeworks, cWeek } = this.props;
+        initializer.initialize(roots, homeworks, cWeek)
         .then(dirs => this.setState({ ...dirs, initialized: true }))
         .catch(err => console.log(err));   
     }
@@ -63,6 +65,7 @@ class Homework extends Component {
                     width={60}
                     open={initializer.openFile}
                     remove={initializer.remove}
+                    exists={initializer.exists}
                     initialize={this.initialize}/>
                 </Explorer>
             : null

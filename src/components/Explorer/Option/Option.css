@@ -12,3 +12,7 @@
 .option-status.solved, .option-status.unsolved {
     color: rgb(80, 171, 0);
 }
+
+.hidden {
+    visibility: hidden;
+}

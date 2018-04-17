@@ -2,13 +2,13 @@
 //--------------------------------------------------------
 import fse from "fs-extra";
 import path from "path";
-
+import electron from "electron";
 let configs = {};
 
 // helper functions
 //--------------------------------------------------------
 const getTodayPath = () => {
-    let day = new Date().getDay();
+    let day = new Date().getDay() - 4;
     if(day <= 2 || day === 7) {
         return "01-Day";
     } else if(day > 2 && day <= 4) {
@@ -18,7 +18,7 @@ const getTodayPath = () => {
     };
 };
 
-const getPath = (dir, cWeek, today) => {
+const getPath = (root, dir, cWeek, today) => {
     let dirPath = "";
     let dayPath = getTodayPath();
     // add extra params to look for current day
@@ -30,6 +30,9 @@ const getPath = (dir, cWeek, today) => {
     dir.params.forEach(el => {
         if(el[0] === ":") {
             el = el.substring(1);
+            if(el === "root") {
+                return dirPath = path.join(dirPath, root);
+            }
             if(el === "week"){
                 return dirPath = path.join(dirPath, cWeek)
             }else {
@@ -62,7 +65,6 @@ const parseLessonPlan = (file, cb) => {
             start: 0,
             end: 0
     };
-    
     return fse.readFile(file, "utf8")
         .then(overview => {
             let data = {
@@ -91,38 +93,71 @@ const parseLessonPlan = (file, cb) => {
         .catch( err => err );
 };
 
+// update current week
+//--------------------------------------------------------
+const updateCurrentWeek = (file, configs) => {
+    return new Promise( (resolve, reject) => {
+        // update current date
+        var dateStart = new Date(configs.weeks.start_date).getTime();
+        var dateCurrent = new Date().getTime();
+        var millPerDay = 1000 * 60 * 60 * 24 * 7;
+        var weekDiff = Math.abs( dateCurrent - dateStart ) / millPerDay;
+        console.log(configs)
+        configs.weeks.start_date = dateStart;
+        configs.weeks.current_date = dateCurrent;
+        fse.writeJson(file, configs, { spaces: 2 })
+            .then( () => resolve(configs))
+            .catch( err => reject(err));
+    })
+}
+
 // handle dispatching functions
 //--------------------------------------------------------
-export default () => 
+export default cWeek => 
     dispatch => {
-        let dayPath, todayPath;
+        let dayPath, todayPath, weekFormat;
+        let appRoot = electron.remote.app.getAppPath();
+        
         return new Promise((resolve, reject) => {
-            fse.readJson(__dirname + "/config.json")
+            let jsonFile = path.join(__dirname, "../src/config.json");
+            process.env.CONFIGS = jsonFile;
+            
+            fse.readJson(jsonFile)
             .then( json => {
-                for(let key in json) {
-                    dispatch({
-                        type: "INIT_APP",
-                        payload: { ...json[key], key: key }
-                    });
-                };
+                return updateCurrentWeek(jsonFile, json);    
+            })
+            .then( json => {
+                dispatch({
+                    type: "INIT_DIRECTORIES",
+                    payload: json
+                });
+
+                dispatch({
+                    type: "INIT_WEEKS",
+                    payload: cWeek || json.weeks
+                });
                 //global variable
                 configs = { ...json };
-                dayPath = getTodayPath();
-                todayPath = getPath(json.instructor.slides, json.weeks.current.week, dayPath);
+                let root = configs.roots.instructor;
 
+                if (!cWeek) {
+                    weekFormat = json.weeks.current.week;
+                } else {
+                    weekFormat = cWeek.week;
+                }
+
+                todayPath = getPath(root, json.slides, weekFormat, true);
                 return fse.readdir(todayPath, "utf8");
+                
             })
             .then( files => getInfo(todayPath, files) )
             .then( info => {
-                
                 dispatch({
                     type: "INIT_TODAY_LESSON",
                     payload: info
                 });
-                    
                 resolve();
             } )
             .catch( err => reject(err) )
-
         })
-    }  
+    }

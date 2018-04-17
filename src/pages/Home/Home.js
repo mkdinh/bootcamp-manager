@@ -13,8 +13,8 @@ const mapStateToProps = state => {
         today_activities: state.home.today_activities,
         overview: state.home.overview,
         cWeek: state.weeks.current,
-        aInstructor: state.instructor.activities,
-        aStudent: state.student.activities
+        roots: state.directories.roots,
+        activities: state.directories.activities
     })
 }
 
@@ -23,22 +23,24 @@ const mapStateToProps = state => {
 
 export class Home extends Component { 
     state = {
-        student: {nested: []},
+        instructor: false,
+        student: false,
         initialized: false
     }
 
     componentDidMount() {
-        this.initialize(this.props.cWeek);
-    }
+        this.initialize();
+    };
 
     componentWillReceiveProps(props) {
-        this.initialize(props.cWeek);
+        if(this.state.initialized) {
+            setTimeout(() => this.initialize(), 0);
+        };
     }
 
-    initialize = cWeek => {
-        let instructorPath = this.props.aInstructor;
-        let studentPath = this.props.aStudent;
-        initializer.initialize(instructorPath, studentPath, cWeek.subject, cWeek.subject)
+    initialize = () => {
+        let { roots, activities, cWeek } = this.props;
+        initializer.initialize(roots, activities, cWeek)
         .then(dirs => {
             this.setState({ ...dirs, initialized: true })
         })
@@ -67,6 +69,7 @@ export class Home extends Component {
     
     render() {  
         const { instructor, initialized } = this.state;
+        // console.log(this.props.cWeek.subject)
         return (
             initialized ? 
                 <Explorer header="">

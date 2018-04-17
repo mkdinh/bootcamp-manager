@@ -1,0 +1,58 @@
+.git-status {
+    position: absolute;
+    top: -50vh;
+    z-index: 999;
+    height: 50vh;
+    background: rgba(32, 32, 32, 0.95);
+    display: flex;
+    width: 100vw;
+    flex-direction: column;
+}
+
+.git-status-total {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: 1rem;
+}
+
+.git-status-num {
+    font-size: 1.5rem;
+    font-weight: bold;
+    flex: 1;
+    text-align: center;
+}   
+
+.git-status-num.total {
+    color: rgb(86, 160, 211);
+    text-transform: uppercase;
+}
+
+.git-status-num.solved {
+    color: rgb(0, 190, 25)
+}
+
+.git-status-num.unsolved {
+    color: rgb(0, 190, 25)
+}
+
+.git-status-list {
+    overflow: auto;
+    padding: 1rem;
+}
+
+.git-status-item {
+    color: rgb(255, 255, 255);
+}
+
+.git-status-item.deleted {
+    color: rgb(204, 0, 0)
+}
+
+.git-status-item.conflicted {
+    color: rgb(245, 200, 0)
+}
+
+.git-status-item.created {
+    color: rgb(0, 190, 25)
+}

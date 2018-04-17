@@ -1,0 +1,55 @@
+{
+  "weeks": {
+    "total": "24",
+    "current": {
+      "week": "07-Week",
+      "subject": "07-firebase"
+    },
+    "start_date": 1515042000000,
+    "current_date": 1519333416744
+  },
+  "roots": {
+    "instructor": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\FullStack-Lesson-Plans",
+    "student": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\UNCRAL201801-T-TH-Class-Repository-FSF"
+  },
+  "activities": {
+    "name": "activities",
+    "group": "\\01-Class-Content",
+    "topic": "\\01-Activities",
+    "params": [
+      ":root",
+      ":group",
+      ":week",
+      ":topic"
+    ]
+  },
+  "projects": {
+    "name": "projects",
+    "group": "\\05-Projects",
+    "params": [
+      ":root",
+      ":group"
+    ]
+  },
+  "homeworks": {
+    "name": "homeworks",
+    "group": "\\01-Class-Content",
+    "topic": "\\02-Homework",
+    "params": [
+      ":root",
+      ":group",
+      ":week",
+      ":topic"
+    ]
+  },
+  "slides": {
+    "name": "slides",
+    "group": "\\02-lesson-plans",
+    "params": [
+      ":root",
+      ":group",
+      "part-time",
+      ":week"
+    ]
+  }
+}

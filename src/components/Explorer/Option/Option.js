@@ -13,11 +13,20 @@ const Option = props =>
         :
             <div>
                 {props.clevel === 1 ?
+                    // check if there is actually a solved and unsolved folder
+                    // if there isn't then don't show status
                     <span styleName="status-wrapper">
-                        <span styleName={`option-status ${props.hasUnsolved ? "unsolved" : ""}`}>
+                        <span styleName={`
+                            option-status 
+                            ${props.hasUnsolved ? "unsolved" : ""}
+                            ${props.existsUnSolved ? "" : "hidden"}`}>
                             <Fa name=""/>unsolved
                         </span> 
-                        <span styleName={`option-status ${props.hasSolved ? "solved" : ""}`}>
+
+                        <span styleName={
+                            `option-status 
+                            ${props.hasSolved ? "solved" : ""}
+                            ${props.existsSolved ? "" : "hidden"}`}>
                             solved
                         </span>
                     </span> 

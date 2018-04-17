@@ -18,6 +18,10 @@ const mapStateToProps = (state) => {
 export default class WeekSelector extends Component {
     state = { expand: false }
 
+    componentDidMount() {
+        
+    }
+
     toggleExpand = () => this.setState({ expand: !this.state.expand })
 
     handleClick = ev => {
@@ -27,10 +31,13 @@ export default class WeekSelector extends Component {
             week: week,
             subject: subject
         };
-
+        
         this.props.dispatch(actions.weeks.updateCurrent(cWeek))
-        .then( () => this.toggleExpand() )
-        .catch( err => console.log(err) )
+        .then( () => {
+            this.toggleExpand();
+            this.props.dispatch(actions.init(cWeek));
+        })
+        .catch( err => console.log(err) );
     }
 
     render() {

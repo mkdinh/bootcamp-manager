@@ -4,8 +4,8 @@ import initializer from "../../utils/functions/initializer";
 import { connect } from "react-redux";
 const mapStateToProps = state =>
     ({
-        aInstructor: state.instructor.activities,
-        aStudent: state.student.activities,
+        cWeek: state.weeks.current,
+        roots: state.directories.roots
     })
 
 @connect(mapStateToProps)
@@ -18,19 +18,18 @@ class Root extends Component {
     }
 
     componentDidMount() {
-        console.log("root")
         this.initialize();
     }
 
     componentWillReceiveProps(props) {
-        this.initialize();
+        if(this.state.initialized) {
+            setTimeout(() => this.initialize(), 0);
+        };
     }
 
     initialize = () => {
-        let instructorPath ={  ...this.props.aInstructor };
-        let studentPath = { ...this.props.aStudent };
-        instructorPath.params = studentPath.params = [":root"];
-        initializer.initialize(null, studentPath)
+        let { roots, cWeek } = this.props;
+        initializer.initialize(roots, null, cWeek)
         .then(dirs => this.setState({ ...dirs, initialized: true }))
         .catch(err => console.log(err));   
     };
@@ -41,22 +40,22 @@ class Root extends Component {
            initialized ? 
                 <Explorer>
                     <Panel 
-                    data={instructor}
                     width={40}
                     role="instructor"
                     nestedlevel={3} 
-                    page="activities"
-                    background="#292929"
-                    copy={initializer.copy}
-                    open={initializer.openFile}
-                    initialize={this.initialize}/>
-
+                    header={"Root"}
+                    page="root"
+                    background="#292929">
+                    
+                    </Panel>
+                    
                     <Panel directory
                     data={student}
                     nestedlevel={6} 
                     role="student"
                     page="activities"
                     width={60}
+                    exists={initializer.exists}
                     remove={initializer.remove}
                     open={initializer.openFile}
                     initialize={this.initialize}/>

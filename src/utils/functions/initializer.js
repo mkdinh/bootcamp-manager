@@ -18,37 +18,49 @@ const _this = {
         student: {}
     },
 
-    initialize: (iPath, sPath, iWeek, sWeek) => {
+    flattens: {
+        instructor: {},
+        student: {}
+    },
+
+    initialize: (rootPaths, relPath, cWeek) => {
         return new Promise( (resolve, reject) => {
             let relPathInstructor, relPathStudent;
             let dirInstructor, dirStudent;
-            
-            if(iPath) {
+
+            // prevent from getting everything in the root  
+            if(relPath) {
                 // concat params into path string
-                relPathInstructor = _this.genPath(iPath, iWeek);
+                relPathInstructor = _this.genPath(rootPaths.instructor, relPath, cWeek);
                 // recursively find document paths
                 dirInstructor = _this.rSearch(relPathInstructor, "/", {}, null, true, true, "instruct");
                 // update root directory for later functions (copy/delete)
                 _this.absPaths.instructor = relPathInstructor;
                 _this.relPaths.instructor = dirInstructor.relPaths;
-            };
+            } else {
+                dirInstructor = {
+                    flatten: {},
+                    root: {}
+                }
+            }
 
-            if(sPath) {
-                // same as instructor
-                relPathStudent = _this.genPath(sPath, sWeek);
-                dirStudent = _this.rSearch(relPathStudent, "/", {}, null, true, true, "student");
-                _this.absPaths.student = relPathStudent;
-                // save directory files for easy retrieval during match function
-                _this.absPaths.rootStudent = sPath.root;
-                _this.relPaths.student = dirStudent.relPaths;
-            };
+            // same as instructor
+            relPathStudent = _this.genPath(rootPaths.student, relPath, cWeek);
+            dirStudent = _this.rSearch(relPathStudent, "/", {}, null, true, true, "student");
+            _this.absPaths.student = relPathStudent;
+            // save directory files for easy retrieval during match function
+            _this.relPaths.student = dirStudent.relPaths;
+            
+            // same flattens for matching
+            _this.flattens.instructor = dirInstructor.flatten;
+            _this.flattens.student = dirStudent.flatten;
 
             // combine results
             let dirs = {
                 instructor: dirInstructor, 
                 student: dirStudent
             };
-                        
+            // console.log("running initializer")
             resolve(dirs);
         } )   
     },
@@ -56,8 +68,6 @@ const _this = {
     copy: file => {
             // grab the absoulte path
             // rel path should be the same for both student / teacher
-
-            // absolute path of file
             let source = path.join(_this.absPaths.instructor, file);
             let target = path.join(_this.absPaths.student, file);
             return fse.copy(source, target)
@@ -77,12 +87,20 @@ const _this = {
     match: relPath => {
         let instructorPath = _this.relPaths.instructor[relPath];
         let studentPath = _this.relPaths.student[relPath];
-
         if(studentPath && instructorPath) {
             return true;
-        }else {
+        } else {
             return false;
-        };
+        }
+    },
+
+    exists: (relPath, child) => {
+        let instructorPath = _this.relPaths.instructor[relPath];
+        if(instructorPath) {
+            return instructorPath[child];
+        } else {
+            return null;
+        }
     },
 
     isEmptyAfterRemove: (file) => {
@@ -213,15 +231,29 @@ const _this = {
         };
 
         if(root) {
-
+            // remove nested directory
+            //  leaves only the __info key
             let optimized = new Object();
             let relPaths = new Object();
 
             for(let key in flatten) {
                 if(flatten[key].__info) {
                     optimized[key] = {};
+                    // check to see if files have solved and unsolved directories
                     optimized[key].__info = flatten[key].__info;
-                    relPaths[flatten[key].__info.rel] = flatten[key].__info.rel;
+                    // saving relative paths for easy retrieval during fs operations
+                    // relPaths[flatten[key].__info.rel] = {};
+                    relPaths[flatten[key].__info.rel] = flatten[key].__info || {};
+                    if(flatten[key].Solved) {
+                        relPaths[flatten[key].__info.rel].solved = true; 
+                    } else {
+                        relPaths[flatten[key].__info.rel].solved = false; 
+                    }
+                    if(flatten[key].Unsolved) {
+                        relPaths[flatten[key].__info.rel].unsolved = true;
+                    }else {
+                        relPaths[flatten[key].__info.rel].unsolved = false;
+                    }
                 }
             };
 
@@ -232,18 +264,27 @@ const _this = {
         }
     },
 
-    genPath: (dir, cWeek) => {
+    genPath: (rootPath, relPath, cWeek) => {
         let dirPath = "";
-        dir.params.forEach(el => {
+        if(!relPath) return rootPath;
+
+        relPath.params.forEach(el => {
             if(el[0] === ":") {
                 el = el.substring(1);
-                if(el === "week"){
-                    return dirPath = path.join(dirPath, cWeek);
-                }else if(el === "day") {
-                    let day = _this.genToday();
-                    return dirPath = path.join(dirPath, day);
-                } {
-                    return dirPath = path.join(dirPath, dir[el]);
+                switch(el) {
+                    case "root": 
+                        return dirPath = path.join(dirPath, rootPath);        
+                    case "week":
+                        if(relPath.name === "activities" || relPath.name === "homeworks") {
+                            return dirPath = path.join(dirPath, cWeek.subject);
+                        } else{
+                            return dirPath = path.join(dirPath, cWeek.week);
+                        }
+                    case "day":
+                        let day = _this.genToday();
+                        return dirPath = path.join(dirPath, day);
+                    default:
+                        return dirPath = path.join(dirPath, relPath[el]);
                 };
             }else {
                 return  dirPath = path.join(dirPath, el);

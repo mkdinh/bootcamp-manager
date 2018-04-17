@@ -17,8 +17,10 @@ class Item extends Component {
     state = {
         expand: false,
         visible: true,
+        hasUnsolved: false,
+        existsUnsolved: false,
         hasSolved: false,
-        hasUnSolved: false
+        existsUnsolved: false
     }
     
     componentDidMount() {
@@ -32,19 +34,18 @@ class Item extends Component {
     checkStatus = props => {
         // check if students have solved or unsolved folder
         if(props.role === "student" && props.clevel === 1) {
-            // grab rel paths and check against student
-            let unsolvedFolder = props.item["Unsolved"];
-            let solvedFolder = props.item["Solved"];
-            if(unsolvedFolder) {
-                this.setState({ hasUnsolved: true }); 
-            } else {
-                this.setState( { hasUnsolved: false })
-            }
-            if(solvedFolder) {
-                this.setState({ hasSolved: true });
-            } else {
-                this.setState({ hasSolved: false })
-            }
+            let item = props.item;
+
+            let existsUnsolved = this.props.exists(item.__info.rel, "unsolved");
+            let existsSolved = this.props.exists(item.__info.rel, "solved");
+            // console.log(existsUnsolved, existsSolved)
+            this.setState({ existsUnsolved: existsUnsolved })
+            this.setState({ existsSolved: existsSolved })
+
+            let hasUnsolved = item.__info.unsolved;
+            let hasSolved = item.__info.solved;
+            this.setState({ hasUnsolved: hasUnsolved }); 
+            this.setState({ hasSolved: hasSolved });
         };
     }
 
@@ -56,7 +57,9 @@ class Item extends Component {
         let cWeek = this.props.week;
 
         this.props.copy(info.rel)
-        .then( () => this.props.initialize(cWeek) )
+        .then( () => {
+            this.props.initialize(cWeek);
+        })
         .catch(err => console.error(err) );
     }
 
@@ -67,8 +70,7 @@ class Item extends Component {
 
         this.props.remove(info.rel)
         .then( () => {
-            console.log("remove and reinit")
-            this.props.initialize(cWeek) 
+            this.props.initialize(cWeek);
         })
         .catch(err => console.error(err) );
     }
@@ -86,14 +88,13 @@ class Item extends Component {
     }
 
     render() {
-        const { hasUnsolved, hasSolved } = this.state;
+        const { existsSolved, existsUnsolved, hasUnsolved, hasSolved } = this.state;
         const file = this.props.item;
         const numFile = Object.keys(file).length;
         const info = file.__info;
         const isDir = file.__info.type === "dir";
         
         const isPushed = this.props.match ? this.props.match(info.rel) : null;
-        
         return (
             
             <li onClick={this.handleDirClick} onDoubleClick={this.handleFileClick}
@@ -114,6 +115,8 @@ class Item extends Component {
                     <Option rel={info.rel} 
                     role={this.props.role}
                     clevel={this.props.clevel}
+                    existsSolved={existsSolved ? "true" : undefined}
+                    existsUnSolved={existsUnsolved ? "true" : undefined}
                     hasSolved={hasSolved ? "true" : undefined}
                     hasUnsolved={hasUnsolved ? "true" : undefined}
                     handleCopy={this.handleCopy}

@@ -24,7 +24,11 @@ class Navbar extends Component {
         this.setState({ active: active });
         this.props.history.replace(page);
     }
-    
+
+    _onContextMenu = ev => {
+
+    }
+     
     render() {
         const active = this.state.active;
         const cWeek = this.props.cWeek || "01";
