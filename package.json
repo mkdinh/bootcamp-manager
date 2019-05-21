@@ -1,17 +1,15 @@
 {
   "name": "bootcamp-manager",
   "version": "1.0.0",
-  "homepage": "./",
   "productionName": "bootcamp-manager",
   "main": "./src/electron-starter.js",
   "scripts": {
-    "scripts": "./node_modules/electron-prebuilt/dist/electron/electron.exe .",
     "prestart": "node ./scripts/prestart.js",
     "start": "cp ./env/dev.env .env && nf start",
     "production": "npm run build && electron .",
     "react-start": "webpack-dev-server --config webpack.dev.js",
-    "electron": "./node_modules/.bin/electron .",
-    "electron-start": "npm run electron",
+    "electron": "./node_modules/.bin/electron",
+    "electron-start": "electron .",
     "electron-rebuild": "electron-rebuild",
     "build": "cp ./env/prod.env .env && webpack --config webpack.prod.js",
     "win-packager": "npm run build && electron-packager . Bootcamp-Manager --overwrite --platform=win32 --arch=ia32 --prune=true --out=executable --version-string.ProductName=\"Electron Tutorial App\""
@@ -32,7 +30,7 @@
     "concurrently": "^3.5.1",
     "css-loader": "^0.28.8",
     "electron": "^1.7.10",
-    "electron-packager": "^10.1.1",
+    "electron-packager": "^12.1.0",
     "electron-rebuild": "^1.6.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "friendly-errors-webpack-plugin": "^1.6.1",

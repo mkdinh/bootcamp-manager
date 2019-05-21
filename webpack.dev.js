@@ -4,20 +4,16 @@ const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const path = require("path");
 
 module.exports = merge(common, {
+  output: {
+    filename: "bundle.js",
+    publicPath: "http://localhost:8080/built",
+    path: path.resolve(__dirname, "built")
+  },
 
-    output: {
-        filename: "bundle.js",
-        path: path.resolve(__dirname, "built")
-    },
+  devServer: {
+    contentBase: path.resolve(__dirname, "public")
+  },
 
-    devServer: {
-        contentBase: path.resolve(__dirname, "public"),
-        publicPath: "http://localhost:8080/built"
-    },
-    
-
-    devtool: "inline-cheap-module-source-map",
-    plugins: [
-        new FriendlyErrorsWebpackPlugin()
-    ]
-})
+  devtool: "inline-cheap-module-source-map",
+  plugins: [new FriendlyErrorsWebpackPlugin()]
+});

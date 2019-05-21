@@ -1,0 +1,122 @@
+[
+  {
+    "week": "01-Excel",
+    "subject": "01-Excel",
+    "content": "01-Excel"
+  },
+  {
+    "week": "02-VBA-Scripting",
+    "subject": "02-VBA-Scripting",
+    "content": "02-VBA-Scripting"
+  },
+  {
+    "week": "03-Python",
+    "subject": "03-Python",
+    "content": "03-Python"
+  },
+  {
+    "week": "04-Pandas",
+    "subject": "04-Pandas",
+    "content": "04-Pandas"
+  },
+  {
+    "week": "05-Matplotlib",
+    "subject": "05-Matplotlib",
+    "content": "05-Matplotlib"
+  },
+  {
+    "week": "06-Python-APIs",
+    "subject": "06-Python-APIs",
+    "content": "06-Python-APIs"
+  },
+  {
+    "week": "07-Project-1",
+    "subject": "07-Project-1",
+    "content": "07-Project-1"
+  },
+  {
+    "week": "08-Project-1",
+    "subject": "08-Project-1",
+    "content": "08-Project-1"
+  },
+  {
+    "week": "09-SQL",
+    "subject": "09-SQL",
+    "content": "09-SQL"
+  },
+  {
+    "week": "10-Advanced-Data-Storage-and-Retrieval",
+    "subject": "10-Advanced-Data-Storage-and-Retrieval",
+    "content": "10-Advanced-Data-Storage-and-Retrieval"
+  },
+  {
+    "week": "11-Web",
+    "subject": "11-Web",
+    "content": "11-Web"
+  },
+  {
+    "week": "12-Web-Scraping-and-Document-Databases",
+    "subject": "12-Web-Scraping-and-Document-Databases",
+    "content": "12-Web-Scraping-and-Document-Databases"
+  },
+  {
+    "week": "13-ETL-Project",
+    "subject": "13-ETL-Project",
+    "content": "13-ETL-Project"
+  },
+  {
+    "week": "14-Intro-To-JavaScript",
+    "subject": "14-Intro-To-JavaScript",
+    "content": "14-Intro-To-JavaScript"
+  },
+  {
+    "week": "15-Interactive-Visualizations-and-Dashboards",
+    "subject": "15-Interactive-Visualizations-and-Dashboards",
+    "content": "15-Interactive-Visualizations-and-Dashboards"
+  },
+  {
+    "week": "16-D3",
+    "subject": "16-D3",
+    "content": "16-D3"
+  },
+  {
+    "week": "17-Mapping-Web",
+    "subject": "17-Mapping-Web",
+    "content": "17-Mapping-Web"
+  },
+  {
+    "week": "18-R",
+    "subject": "18-R",
+    "content": "18-R"
+  },
+  {
+    "week": "19-Project-2",
+    "subject": "19-Project-2",
+    "content": "19-Project-2"
+  },
+  {
+    "week": "20-Tableau",
+    "subject": "20-Tableau",
+    "content": "20-Tableau"
+  },
+  {
+    "week": "21-Machine-Learning",
+    "subject": "21-Machine-Learning",
+    "content": "21-Machine-Learning"
+  },
+  {
+    "week": "22-Big-Data",
+    "subject": "22-Big-Data",
+    "content": "22-Big-Data"
+  },
+  {
+    "week": "23-Final-Project",
+    "subject": "23-Final-Project",
+    "content": "23-Final-Project"
+  },
+  {
+    "week": "24-Final-Project",
+    "subject": "24-Final-Project",
+    "content": "24-Final-Project"
+  }
+]

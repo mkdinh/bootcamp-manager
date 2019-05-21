@@ -2,54 +2,51 @@
   "weeks": {
     "total": "24",
     "current": {
-      "week": "07-Week",
-      "subject": "07-firebase"
+      "week": "01-Excel",
+      "subject": "01-Excel"
     },
     "start_date": 1515042000000,
-    "current_date": 1519333416744
+    "current_date": 1558473751323
   },
   "roots": {
-    "instructor": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\FullStack-Lesson-Plans",
-    "student": "C:\\Users\\mkdin\\Documents\\TA\\RALSPRING2018\\UNCRAL201801-T-TH-Class-Repository-FSF"
+    "instructor": "C:\\Users\\mkdin\\Documents\\TA\\DataViz-Lesson-Plans",
+    "student": "C:\\Users\\mkdin\\Documents\\TA\\UNCRAL20190514DATA"
   },
   "activities": {
     "name": "activities",
-    "group": "\\01-Class-Content",
-    "topic": "\\01-Activities",
+    "group": "\\01-Lesson-Plans",
+    "topic": "\\Activities",
     "params": [
       ":root",
       ":group",
       ":week",
-      ":topic"
-    ]
-  },
-  "projects": {
-    "name": "projects",
-    "group": "\\05-Projects",
-    "params": [
-      ":root",
-      ":group"
-    ]
-  },
-  "homeworks": {
-    "name": "homeworks",
-    "group": "\\01-Class-Content",
-    "topic": "\\02-Homework",
-    "params": [
-      ":root",
-      ":group",
-      ":week",
+      ":day",
       ":topic"
     ]
   },
   "slides": {
     "name": "slides",
-    "group": "\\02-lesson-plans",
+    "group": "\\01-Lesson-Plans",
     "params": [
       ":root",
       ":group",
-      "part-time",
       ":week"
+    ]
+  },
+  "homeworks": {
+    "name": "homeworks",
+    "group": "\\02-Homework",
+    "params": [
+      ":root",
+      ":group"
+    ]
+  },
+  "projects": {
+    "name": "projects",
+    "group": "\\03-Projects",
+    "params": [
+      ":root",
+      ":group"
     ]
   }
 }
