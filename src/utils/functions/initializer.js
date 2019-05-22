@@ -22,7 +22,7 @@ const _this = {
     student: {},
   },
 
-  initialize: (rootPaths, relPath, cWeek) => {
+  initialize: (rootPaths, relPath, cWeek, cDay) => {
     return new Promise((resolve, reject) => {
       let relPathInstructor, relPathStudent;
       let dirInstructor, dirStudent;
@@ -30,7 +30,12 @@ const _this = {
       // prevent from getting everything in the root
       if (relPath) {
         // concat params into path string
-        relPathInstructor = _this.genPath(rootPaths.instructor, relPath, cWeek);
+        relPathInstructor = _this.genPath(
+          rootPaths.instructor,
+          relPath,
+          cWeek,
+          cDay,
+        );
         // recursively find document paths
         dirInstructor = _this.rSearch(
           relPathInstructor,
@@ -52,7 +57,7 @@ const _this = {
       }
 
       // same as instructor
-      relPathStudent = _this.genPath(rootPaths.student, relPath, cWeek);
+      relPathStudent = _this.genPath(rootPaths.student, relPath, cWeek, cDay);
       dirStudent = _this.rSearch(
         relPathStudent,
         '/',
@@ -277,7 +282,7 @@ const _this = {
     }
   },
 
-  genPath: (rootPath, relPath, cWeek) => {
+  genPath: (rootPath, relPath, cWeek, cDay) => {
     let dirPath = '';
     if (!relPath) return rootPath;
 
@@ -294,8 +299,8 @@ const _this = {
               return (dirPath = path.join(dirPath, cWeek.week));
             }
           case 'day':
-            let day = _this.genToday();
-            return (dirPath = path.join(dirPath, day));
+            let day = cDay || _this.genToday();
+            return (dirPath = path.join(dirPath, day.toString()));
           default:
             return (dirPath = path.join(dirPath, relPath[el]));
         }

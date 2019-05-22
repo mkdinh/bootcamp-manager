@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import reactDOM from 'react-dom';
 import CSSModules from 'react-css-modules';
 import weeks from './data-weeks.json';
 import { connect } from 'react-redux';
@@ -16,8 +15,6 @@ const mapStateToProps = state => {
 @CSSModules(styles)
 export default class WeekSelector extends Component {
   state = { expand: false };
-
-  componentDidMount() {}
 
   toggleExpand = () => this.setState({ expand: !this.state.expand });
 
@@ -40,7 +37,7 @@ export default class WeekSelector extends Component {
 
   render() {
     const cWeek = this.props.cWeek || {};
-
+    console.log(cWeek);
     return (
       <div ref={node => (this.select = node)} styleName="week-select">
         <div styleName="week-active" onClick={this.toggleExpand}>

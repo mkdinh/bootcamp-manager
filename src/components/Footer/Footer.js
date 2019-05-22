@@ -3,6 +3,7 @@ import CSSModules from 'react-css-modules';
 import styles from './Footer.css';
 import Fa from 'react-fontawesome';
 import { GitStatus } from '../Popup';
+import { connect } from 'react-redux';
 import git from '../../utils/functions/git_manager';
 
 const options = {
@@ -10,6 +11,11 @@ const options = {
   handleNotFoundStyleName: 'ignore',
 };
 
+const mapStateToProps = state => ({
+  cWeek: state.weeks.current,
+});
+
+@connect(mapStateToProps)
 @CSSModules(styles, options)
 export default class Footer extends Component {
   state = {
@@ -44,7 +50,10 @@ export default class Footer extends Component {
         .status()
         .then(result => {
           this.toggleLoading();
-          this.setState({ status: result });
+          this.setState({
+            status: result,
+            message: this.genMessageWithWeek(this.state.message),
+          });
         })
         .catch(err => {
           this.setState({ message: err.message, error: true });
@@ -52,6 +61,15 @@ export default class Footer extends Component {
         });
     } else {
       this.setState({ error: true, message: 'a commit message is required' });
+    }
+  };
+
+  genMessageWithWeek = message => {
+    const regex = new RegExp(`^${this.props.cWeek.subject}`);
+    if (message.match(regex)) {
+      return message;
+    } else {
+      return `${this.props.cWeek.subject}: ${message}`;
     }
   };
 
@@ -92,6 +110,16 @@ export default class Footer extends Component {
     }
   };
 
+  handleSubmitOnEnter = ev => {
+    if (ev.keyCode === 13) {
+      if (this.state.status) {
+        this.handlePush(ev);
+      } else {
+        this.handleConfirm(ev);
+      }
+    }
+  };
+
   render() {
     const { disabled, error, loading, status } = this.state;
 
@@ -110,6 +138,7 @@ export default class Footer extends Component {
           styleName={`footer-input-message ${error ? 'error' : ''}`}
           onChange={this.handleChange}
           onFocus={this.handleFocus}
+          onKeyUp={this.handleSubmitOnEnter}
           value={this.state.message}
         />
 

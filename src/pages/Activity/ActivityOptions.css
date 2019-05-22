@@ -1,0 +1,40 @@
+.activity-options {
+}
+
+.options {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.option-item {
+  margin: 0.5rem 0;
+  padding-left: 0.5rem;
+  list-style-type: none;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.opt-label {
+  color: white;
+}
+
+.opt-copy-unsolved {
+  color: green;
+  transition: background, color 250ms ease-in-out;
+  cursor: pointer;
+}
+
+.opt-copy-unsolved:hover {
+  color: #56a0d3;
+}
+
+.opt-copy-solved {
+  color: orange;
+  transition: background, color 250ms ease-in-out;
+  cursor: pointer;
+}
+
+.opt-copy-solved:hover {
+  color: #56a0d3;
+}

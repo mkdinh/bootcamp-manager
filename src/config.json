@@ -2,11 +2,12 @@
   "weeks": {
     "total": "24",
     "current": {
-      "week": "01-Excel",
-      "subject": "01-Excel"
+      "week": "02-VBA-Scripting",
+      "subject": "02-VBA-Scripting",
+      "day": 1
     },
     "start_date": 1515042000000,
-    "current_date": 1558473751323
+    "current_date": 1558497098579
   },
   "roots": {
     "instructor": "C:\\Users\\mkdin\\Documents\\TA\\DataViz-Lesson-Plans",
