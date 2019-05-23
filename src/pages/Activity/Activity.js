@@ -8,6 +8,7 @@ import initializer from '../../utils/functions/initializer';
 import { connect } from 'react-redux';
 import actions from '../../utils/actions';
 import styles from './Activity.css';
+import fileService from '../../services/FileService';
 
 const mapStateToProps = state => ({
   cDay: state.weeks.day,
@@ -40,7 +41,9 @@ class Activity extends Component {
 
     initializer
       .initialize(roots, activities, cWeek, cDay)
-      .then(dirs => this.setState({ ...dirs, initialized: true }))
+      .then(dirs => {
+        this.setState({ ...dirs, initialized: true });
+      })
       .catch(err => console.log(err));
   };
 
@@ -52,10 +55,23 @@ class Activity extends Component {
       });
   };
 
+  onCopyUnsolved = async () => {
+    await fileService.copyDailyUnsolvedToStudentWorkBook();
+    this.initialize();
+  };
+
+  onCopySolved = async () => {
+    await fileService.copyDailySolvedToStudentWorkBook();
+    this.initialize();
+  };
+
   daySelector = () => {
     return (
       <ActivityToolbar>
-        <ActivityOptions />
+        <ActivityOptions
+          onCopyUnsolved={this.onCopyUnsolved}
+          onCopySolved={this.onCopySolved}
+        />
         <DaySelector onSelect={this.onDayselect} />
       </ActivityToolbar>
     );

@@ -3,24 +3,26 @@
 import fse from 'fs-extra';
 import path from 'path';
 import electron from 'electron';
+import fileService from '../../services/FileService';
 let configs = {};
 
 // helper functions
 //--------------------------------------------------------
-const getTodayPath = () => {
-  let day = new Date().getDay() - 4;
-  if (day <= 2 || day === 7) {
-    return '1';
-  } else if (day > 2 && day <= 4) {
-    return '2';
-  } else if (day > 4 && day <= 6) {
-    return '3';
-  }
+const getTimeSheet = async () => {
+  const filePath = fileService.getPathToDailyFile('TimeTracker.xlsx');
+  const sheets = await fileService.readXlsxToCSV(filePath);
+  const csv = sheets['Sheet1'];
+
+  const data = csv.split('\n').map(r => r.split(','));
+  data.shift(); // remove title row
+  data.shift();
+
+  return { header: ['Time', '#', 'Activity', 'Dur.'], activities: data };
 };
 
 const getPath = (root, dir, cWeek, today) => {
   let dirPath = '';
-  let todayPath = getTodayPath();
+  let todayPath = today.toString();
 
   dir.params.forEach(el => {
     if (el[0] === ':') {
@@ -46,41 +48,24 @@ const getPath = (root, dir, cWeek, today) => {
 };
 
 // parse info from files
-const getInfo = (cwd, files) => {
+const getInfo = async (cwd, files) => {
   let lessonPlan = files.filter(el => el.match('LessonPlan.md'))[0];
   lessonPlan = path.join(cwd, lessonPlan);
   return parseLessonPlan(lessonPlan);
 };
 
-const parseLessonPlan = (file, cb) => {
+const parseLessonPlan = async (file, cb) => {
   let activity = {
     start: 0,
     end: 0,
   };
-  return fse
-    .readFile(file, 'utf8')
-    .then(overview => {
-      let data = {
-        overview: [],
-        today_activities: [],
-      };
+  const overview = await fse.readFile(file, 'utf8');
+  const timesheet = await getTimeSheet();
 
-      overview = overview.split('\n\r');
-      for (let i = 0; i < 20; i++) {
-        if (overview[i].match('###')) {
-          let summary = overview[i];
-          // find the activity number for today lesson
-          let range = summary.match(/(\w+)-(\w+)/);
-          // if there can't find activity throw error
-          if (range) {
-            // data.today_activities = [range[1], range[2]];
-            data.today_activities = [0, 10];
-          }
-        }
-      }
-      return data;
-    })
-    .catch(err => err);
+  return {
+    overview,
+    timesheet,
+  };
 };
 
 // update current week
@@ -106,7 +91,6 @@ const updateCurrentWeek = (file, configs) => {
 export default cWeek => dispatch => {
   let dayPath, todayPath, weekFormat;
   let appRoot = electron.remote.app.getAppPath();
-
   return new Promise((resolve, reject) => {
     let jsonFile = path.join(__dirname, '../src/config.json');
     process.env.CONFIGS = jsonFile;
@@ -136,7 +120,12 @@ export default cWeek => dispatch => {
           weekFormat = cWeek.week;
         }
 
-        todayPath = getPath(root, json.slides, weekFormat, true);
+        todayPath = getPath(
+          root,
+          json.slides,
+          weekFormat,
+          json.weeks.current.day,
+        );
         return fse.readdir(todayPath, 'utf8');
       })
       .then(files => getInfo(todayPath, files))

@@ -37,7 +37,6 @@ export default class WeekSelector extends Component {
 
   render() {
     const cWeek = this.props.cWeek || {};
-    console.log(cWeek);
     return (
       <div ref={node => (this.select = node)} styleName="week-select">
         <div styleName="week-active" onClick={this.toggleExpand}>

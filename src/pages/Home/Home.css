@@ -1,3 +1,26 @@
 .wrapper {
-    color: blue
+  color: blue;
+}
+
+.summary-wrapper {
+  overflow: scroll;
+  color: white;
+}
+
+.summary-wrapper {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.summary-wrapper a {
+  color: #56a0d3;
+  text-decoration: none;
+}
+
+.summary-wrapper img {
+  margin: 1rem 5%;
+  max-width: 90%;
+}
+
+h3 {
+  color: #56a0d3;
 }

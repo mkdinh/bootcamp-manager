@@ -325,7 +325,9 @@ const _this = {
   openFile: relPath => {
     //concat abs + rel paths;
     let absPath = _this.absPaths.instructor;
-    let fullPath = path.join(absPath, relPath);
+    let fullPath = relPath.contains(absPath)
+      ? relPath
+      : path.join(absPath, relPath);
     // open via childprocess
     require('child_process').exec(fullPath);
   },

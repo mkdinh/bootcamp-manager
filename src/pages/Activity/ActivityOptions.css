@@ -13,6 +13,7 @@
   list-style-type: none;
   font-weight: bold;
   font-family: 'Courier New', Courier, monospace;
+  user-select: none;
 }
 
 .opt-label {

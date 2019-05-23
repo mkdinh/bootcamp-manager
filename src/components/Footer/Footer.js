@@ -111,7 +111,7 @@ export default class Footer extends Component {
   };
 
   handleSubmitOnEnter = ev => {
-    if (ev.keyCode === 13) {
+    if (ev.ctrlKey && ev.keyCode === 13) {
       if (this.state.status) {
         this.handlePush(ev);
       } else {
